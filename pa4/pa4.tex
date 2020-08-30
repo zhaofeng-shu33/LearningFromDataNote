@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+(cartpole) Consider an inverted pendulum tied to a cart, our goal is to stabilize it by moving the cart
+to the left or to the right.
+
+Now we formulate the problem in classicial mechanics and Reinforcement Learning terminology.
+We choose the length of the rod $L = 0.5 m$, the mass of the cart $M=1 kg$, the mass of the ball $m=0.1 kg$
+and there is no friction between the cart and the floor.
+The state of the system is described by
+$(x, \theta, \dot{x}, \dot{\theta})$. Notice that $(x, \dot{x})$ is the position of velocity of the cart while
+$(\theta, \dot{\theta})$ is the relative position and angular velocity of the ball with respect to the cart.
+
+The action we can do is applying a force
+$F$ or $-F$. We specify that the right direction is positive. To make the problem concrete,
+we require $F=10N$ and we discrete the time such that at time $t+\Delta t$ we can choose another action.
+$\Delta t = 0.02s$. The new state $(x', \theta', \dot{x}', \dot{\theta}')$ is updated from old state by the following law:
+\begin{align*}
+x' &= x + \Delta t \cdot \dot{x} \\
+\theta' &= \theta + \Delta t \cdot \dot{\theta} \\
+\dot{x}' &= \dot{x} + \Delta t \cdot \ddot{x} \\
+\dot{\theta}' &= \dot{\theta} + \Delta t \cdot \ddot{\theta}
+\end{align*}
+The acceleration $(\ddot{x}, \ddot{\theta})$ can be computed from Newton's law \cite{cartpole}.
+We list its equation here for convenience:
+\begin{align*}
+& (m + M)\ddot{x} + mL(\ddot{\theta} \cos \theta - \dot{\theta}^2 \sin \theta) x= F \\
+& m l \ddot{\theta} + m \ddot{x} \cos\theta = m g \sin \theta \\
+\end{align*}
+
+\begin{thebibliography}{9}
+	\bibitem{cartpole} Florian, Razvan V. "Correct equations for the dynamics of the cart-pole system." Center for Cognitive and Neural Studies (Coneural), Romania (2007).
+\end{thebibliography}
+\end{document}
