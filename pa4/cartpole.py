@@ -1,5 +1,6 @@
 import numpy as np
 import datetime
+from DQN import DQN
 
 np.random.seed(2020)
 
@@ -89,8 +90,7 @@ class Agent:
         self.eps = kwargs["eps"]
 
         # Q function
-        self.Q = None
-
+        self.Q = DQN(4, 2)
     def do(self, state):
         """Know the current state, choose an action.
         Args:
@@ -98,7 +98,10 @@ class Agent:
         Outputs:
             action: an action the agenet decides to take, in [0, 1, 2, 3].
         """
-        return ar_t[0][0]
+        if np.random.rand() < self.gamma:
+            return np.random.randint(0, 2)
+        q_values = self.Q.predict(state)
+        return np.argmax(q_values)
 
     def learn(self, state, action, reward, next_state):
         """Learn from the environment.
@@ -111,7 +114,8 @@ class Agent:
         Outputs:
             None
         """
-
-
-
+        q_values = self.Q.predict(state)
+        q_values_next = self.Q.predict(state)
+        q_values[action] += self.alpha * (reward + self.gamma * np.max(q_values_next) - q_values[action])
+        self.Q.train(state, q_values)
 
