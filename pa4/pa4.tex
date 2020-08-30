@@ -4,7 +4,7 @@
 (cartpole) Consider an inverted pendulum tied to a cart, our goal is to stabilize it by moving the cart
 to the left or to the right.
 
-Now we formulate the problem in classicial mechanics and Reinforcement Learning terminology.
+Now we formulate the problem in classical mechanics and Reinforcement Learning terminology.
 We choose the length of the rod $L = 0.5 m$, the mass of the cart $M=1 kg$, the mass of the ball $m=0.1 kg$
 and there is no friction between the cart and the floor.
 The state of the system is described by
@@ -21,14 +21,18 @@ x' &= x + \Delta t \cdot \dot{x} \\
 \dot{x}' &= \dot{x} + \Delta t \cdot \ddot{x} \\
 \dot{\theta}' &= \dot{\theta} + \Delta t \cdot \ddot{\theta}
 \end{align*}
-The acceleration $(\ddot{x}, \ddot{\theta})$ can be computed from Newton's law \cite{cartpole}.
+The acceleration $(\ddot{x}, \ddot{\theta})$ can be computed from Newton's law.
 We list its equation here for convenience:
 \begin{align*}
-& (m + M)\ddot{x} + mL(\ddot{\theta} \cos \theta - \dot{\theta}^2 \sin \theta) x= F \\
+& (m + M)\ddot{x} + mL(\ddot{\theta} \cos \theta - \dot{\theta}^2 \sin \theta) = F \\
 & m l \ddot{\theta} + m \ddot{x} \cos\theta = m g \sin \theta \\
 \end{align*}
 
-\begin{thebibliography}{9}
-	\bibitem{cartpole} Florian, Razvan V. "Correct equations for the dynamics of the cart-pole system." Center for Cognitive and Neural Studies (Coneural), Romania (2007).
-\end{thebibliography}
+There is a reward $+1$ each time the ball is in the upright position, otherwise the reward is zero.
+In computation, we should set a threshold for the upright position, when $|\theta|< \delta \theta = 12^\circ$.
+
+We also set the termination condition when $|\theta| > \delta' \theta = 45^\circ$ and $|x| > \delta x = 4.8 m $.
+%\begin{thebibliography}{9}
+%	\bibitem{cartpole} Florian, Razvan V. "Correct equations for the dynamics of the cart-pole system." Center for Cognitive and Neural Studies (Coneural), Romania (2007).
+%\end{thebibliography}
 \end{document}

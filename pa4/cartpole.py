@@ -6,57 +6,76 @@ np.random.seed(2020)
 "define the environment"
 class Environment:
     def __init__(self):
-        # set the reward matrix
-        reward = np.zeros((4,4))
-
-        # place the cheese
-        reward[3,3] = 4
-        reward[3,0] = 2
-        reward[[0,0,2],[3,1,1]] = 1
-
-        # place the poison
-        reward[[1,1,3],[3,1,1]] = -5
-        self.observation_space = 2
         self.tau = 0.02 # time delta between two consecutive steps
-        self.max_row, self.max_col = reward.shape
-        self.raw_reward = reward
-        self.reward = reward
-        self.action_map = {0: [0,-1], # left
-                           1: [0,1],  # right
-                           }
-
+        self.delta_x = 4.8
+        self.delta_theta = 12 * np.pi / 180
+        self.delta_theta_prime = 45 * np.pi / 180
+        self.F = 10
+        self.m = 0.1
+        self.M = 1
+        self.L = 0.5
+        self.g = 9.8
     def step(self, action, state):
         """Given an action, outputs the reward.
         Args:
-            action: int, an action taken by the agent
+            action: boolean, an action taken by the agent
             state: 1 x 4 array, the current state of the agent
 
         Outputs:
-            next_state: list, next state of the agent
+            next_state: 1 x 4 array, the next state of the agent
             reward: float, the reward at the next state
             done: bool, stop or continue learning
         """
-
-        done = False
-        current_state = json.loads(state)
-        state_shift = self.action_map[action]
-
-        next_state = np.array(current_state) + np.array(state_shift)
-        next_state = next_state.tolist()
-
-        # fixed reward set adviced by Jiaxin Lin
-        reward = self.reward[current_state[0], current_state[1]]
-        self.reward[current_state[0], current_state[1]] = 0
-        next_state = json.dumps(next_state)
-
-        # fixed condition adviced by Shi Mao
-        if reward < 0 or reward == 4:
+        
+        x = state[0]
+        x_dot = state[2]
+        theta = state[1]
+        theta_dot = state[3]
+        if action:
+            F = self.F
+        else:
+            F = -1.0 * self.F
+        # compute acceleration of x and theta
+        _matrix_22 = [[self.m + self.M, self.m * self.L * np.cos(theta)],
+                     [np.cos(theta), self.L]]
+        _vector_2 = [F + self.m * self.L * theta_dot ** 2 * np.sin(theta),
+                    self.g * np.sin(theta)]
+        x_double_dot, theta_double_dot = np.linalg.solve(_matrix_22, _vector_22)
+        # set new state
+        x_prime = x + self.tau * x_dot
+        theta_prime = theta + self.tau * theta_dot
+        x_prime_dot = x_dot + self.tau * x_double_dot
+        theta_prime_dot = theta_dot + self.tau * theta_double_dot
+        next_state = [x_prime, theta_prime, x_prime_dot,
+                      theta_prime_dot]
+        # check reward
+        if np.abs(theta_prime) < self.delta_theta:
+            reward = 1
+        else:
+            reward = 0
+        # check termination condition
+        if np.abs(theta_prime) > self.delta_theta_prime or \
+            np.abs(x_prime) > self.delta_x:
             done = True
+        else:
+            done = False
 
         return next_state, reward, done
 
+
+
+"define the agent"
+class Agent:
+    def __init__(self, *args, **kwargs):
+        self.gamma = kwargs["gamma"]
+        self.alpha = kwargs["alpha"]
+        self.eps = kwargs["eps"]
+
+        # self.Q = defaultdict(lambda: np.array([.0, .0, .0, .0]))
+        self.Q = defaultdict(lambda: np.random.rand(4))
+
     def reset(self, is_training=True):
-        """Reset the environment, state, and reward matrix.
+        """Reset the agent state
         Args:
             is_training: bool, if True, the initial state of the agent will be set randomly,
                 or the initial state will be (0,0) by default.
@@ -82,22 +101,6 @@ class Environment:
         self.state = json.dumps(init_state)
         
         return self.state
-
-"define the agent"
-class Agent:
-    def __init__(self, *args, **kwargs):
-        self.gamma = kwargs["gamma"]
-        self.alpha = kwargs["alpha"]
-        self.eps = kwargs["eps"]
-        self.max_col = kwargs["max_col"]
-        self.max_row = kwargs["max_row"]
-
-        # action is [0,1,2,3]: left, right, up, down
-        self.action_space = [0, 1, 2, 3]
-
-        # self.Q = defaultdict(lambda: np.array([.0, .0, .0, .0]))
-        self.Q = defaultdict(lambda: np.random.rand(4))
-
 
     def do(self, state):
         """Know the current state, choose an action.
