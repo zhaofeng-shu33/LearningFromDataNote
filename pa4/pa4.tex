@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx,algorithm}
 \begin{document}
 (cartpole) Consider an inverted pendulum tied to a cart, our goal is to stabilize it by moving the cart
 to the left or to the right.
@@ -32,6 +34,27 @@ There is a reward $+1$ each time the ball is in the upright position, otherwise 
 In computation, we should set a threshold for the upright position, when $|\theta|< \delta \theta = 12^\circ$.
 
 We also set the termination condition when $|\theta| > \delta' \theta = 45^\circ$ and $|x| > \delta x = 4.8 m $.
+
+Now we are ought to help it learn from the reward matrix, thus it can eat the cheese on the $(3,3)$ and avoid traps on $(1,1)$, $(1,3)$ and $(3,1)$. Recall the \emph{Q-learning} you learned from class, the mouse itself has to build a Q-table $Q(s,a)$ where $s$ is the state and $a$ is the action, then it can decide which action to take by this Q-table. Updating this Q-table is commonly performed as algorithm \ref{alg1}:
+
+\begin{algorithm}[b] 
+	\caption{Deep Q learning \label{alg1}} %算法的名字
+	\hspace*{0.02in} {\bf Input:} %算法的输入， \hspace*{0.02in}用来控制位置，同时利用 \\ 进行换行
+	Initialize $Q(s,a,w)$ arbitrarily
+	\begin{algorithmic}[1]
+		\For{for each episode}
+		\State Initialize $s$
+		\While{$s$ is not terminal}
+		\State Choose $a$ from $s$ using policy derived from $Q$ (e.g., $\epsilon$-greedy)
+		\State Take action $a$, observe $r$, $s^{\prime}$
+		\State $\hat{Q}(s,a) \gets Q(s,a, w) + \alpha \left ( r + \gamma \max_{a^{\prime}}Q(s^{\prime},a^{\prime}, w) - Q(s, a, w) \right )$
+		\State $w' = \arg\min_{w}|| Q(s,a, w) - \hat{Q}(s,a)||^2$
+		\State $s\gets s^{\prime}, w \gets w'$
+		\EndWhile
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
 %\begin{thebibliography}{9}
 %	\bibitem{cartpole} Florian, Razvan V. "Correct equations for the dynamics of the cart-pole system." Center for Cognitive and Neural Studies (Coneural), Romania (2007).
 %\end{thebibliography}
