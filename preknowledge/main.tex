@@ -1,0 +1,542 @@
+\documentclass[a4paper, 12pt, answers]{exam} % answers
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage{advdate}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+
+
+\usepackage{url}
+\newdate{issuedate}{12}{9}{2020}
+\newdate{duedate}{16}{9}{2020}
+
+% \newcommand{\duedate}[1][14]{%
+% \begingroup
+% \AdvanceDate[#1]%
+% \today%
+% \endgroup
+% }%
+%\input{lddef}
+\usepackage[thehwcnt=0]{iidef} % please use >= v2.6 !
+\input{symbols.tex}
+\makeatletter
+\@ifclasswith{exam}{answers}{\newcommand{\firstblock}{comments_ldps1}}{\newcommand{\firstblock}{policies}}
+\makeatother
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+\thecoursename{Learning From Data}
+\theterm{Fall 2020}
+\begin{document}
+
+\pagestyle{headandfoot}
+\runningheadrule
+
+
+\newcounter{psctr}
+\setcounter{psctr}{0} % set to the times of problem
+
+\runningheader{Problem Set \thepsctr}
+              {\textsc{Learning from Data}}
+              { Page \thepage\ of \numpages}
+\firstpagefooter{}{}{}
+\runningfooter{}{}{}
+
+
+\newcounter{Sequ}
+\newenvironment{Sequation}
+   {\stepcounter{Sequ}%
+     \addtocounter{equation}{-1}%
+     \renewcommand\theequation{S\arabic{Sequ}}\equation}
+   {\endequation}
+%\mathrm{T}skip0pt
+
+% \vspace*{\fill}
+\centering
+
+% \vspace{0.3em}
+\centering
+\renewcommand{\thequestion}{\arabic{psctr}.\arabic{question}}
+\courseheader
+
+%\begin{center}
+%  \underline{\bf Problem Set \thepsctr} \\
+%\end{center}
+\hwname{Problem Set}
+\begin{flushleft}
+  \textbf{Issued:} \displaydate{issuedate} \hfill
+  \textbf{Due:} \displaydate{duedate} 
+\end{flushleft}
+
+\hrule 
+
+\input{\firstblock}
+
+%\pointname{}
+%\vspace{\footskip}
+\vspace{1em}
+
+
+%\pointname{}
+%\vspace{\footskip}
+%\vspace{1em}
+
+%\newpage\\
+\begin{flushleft}
+ \textbf{Tips}: It is not a formal homework and will not be graded. The primary goal is to help you remember those basic mathematics you have learnt before.
+\end{flushleft}
+\begin{center}
+	Calculus \& Linear Algebra
+\end{center}
+
+\begin{questions}
+\question
+(Chain rule) $x\in\mathbb{R}$ is a scalar, we have 
+\begin{equation*}
+\begin{aligned}
+y &= ax + b \\
+z &= \frac1{1+e^{-y}} 
+\end{aligned}
+\end{equation*} 
+
+Please give the $\frac{\partial z}{\partial x}$.
+
+\begin{solution}
+	According to the chain rule, we have
+	\begin{equation*}
+	\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \times \frac{\partial y}{\partial x} 
+	= z(1-z) \times a 
+	\end{equation*}
+\end{solution}
+
+\question
+(Orthogonal) The $\mathbf{Q} \in \mathbb{R}^{n \times n}$ is said to be \textbf{orthogonal} if its columns are pairwise orthogonal, which implies that 
+\begin{equation*}
+\mathbf{Q}\mathbf{Q}^{\mathrm{T}} = \mathbf{Q}^{\mathrm{T}}\mathbf{Q} = I
+\end{equation*}
+Please show that $\|\mathbf{Q}\bx\|_2=\|\bx\|_2$.
+
+\begin{solution}
+	
+	\begin{equation*}
+	\begin{aligned}
+	\| \mathbf{Q}\bx\|_2 &= (\mathbf{Q} \bx)^{\mathrm{T}} \mathbf{Q} \bx \\
+	&= \bx^{\mathrm{T}} \mathbf{Q}^{\mathrm{T}}\mathbf{Q} \bx \\
+	&= \| \bx \|_2	
+	\end{aligned}
+	\end{equation*}
+	
+\end{solution}
+
+
+\question (Inner product) If $\bx \in \mathbb{R}^n$ is orthogonal to $\by \in \mathbb{R}^n$, please show that
+\begin{equation*}
+\| \bx + \by \|^2  = \|\bx\|^2 + \|\by\|^2
+\end{equation*}
+
+\begin{solution}
+	\begin{equation*}
+	\begin{aligned}
+	\| \bx + \by \|^2 &= (\bx + \by)^{\mathrm{T}}(\bx + \by) \\
+	&= \bx^{\mathrm{T}}\bx + \by^{\mathrm{T}}\by + \bx^{\mathrm{T}}\by + \by^{\mathrm{T}}\bx \\
+	&= \|\bx\|^2 + \|\by\|^2
+	\end{aligned}
+	\end{equation*}
+\end{solution}
+
+
+\question
+(Trace) For any matrices $\mathbf{A}, \mathbf{B}, \mathbf{C}\in \mathbb{R}^{n\times n}$, please show that
+	\begin{parts}
+		\part $\mathrm{trace}(\mathbf{A}\mathbf{B})=\mathrm{trace}(\mathbf{B}\mathbf{A}) $
+		\part $\mathrm{trace}(\mathbf{A}\mathbf{B}\mathbf{C})=\mathrm{trace}(\mathbf{C}\mathbf{A}\mathbf{B})=\mathrm{trace}(\mathbf{B}\mathbf{C}\mathbf{A})$
+		\part $\nabla_\mathbf{A} \tr(\mathbf{A}\mathbf{B}) = \mathbf{B}^{\mathrm{T}}$.
+	\end{parts}
+
+\begin{solution}
+\begin{parts}
+    \part From the definition of trace, we know
+
+\begin{align*}
+    \mathrm{trace}(\mathbf{A}\mathbf{B}) 
+    &= \sum\limits_{i = 1}^{n}\sum\limits_{j=1}^{n}a_{ij}b_{ji} \\
+    &= \sum\limits_{j = 1}^{n}\sum\limits_{i=1}^{n}b_{ji}a_{ij}\\
+    &= \mathrm{trace}(\mathbf{B}\mathbf{A})
+\end{align*}
+  
+    \part Treat $\mathbf{A}\mathbf{B}$ as a new matrix, then we have: $\mathrm{trace}((\mathbf{A}\mathbf{B})\mathbf{C})=\mathrm{trace}(\mathbf{C}(\mathbf{A}\mathbf{B}))$
+   
+   \part 
+		We know $\mathrm{trace}(\mathbf{A}\mathbf{B}) 
+    = \sum\limits_{i = 1}^{n}\sum\limits_{j=1}^{n}a_{ij}b_{ji} $, for an arbitray element $a_{kl}$, we have
+		\begin{equation*}
+		\frac{\partial \tr(\mathbf{A}\mathbf{B})}{\partial a_{kl}} = b_{lk}
+		\end{equation*}
+		Hence we have
+		\begin{equation*}
+		\nabla_\mathbf{A} \tr(\mathbf{A}\mathbf{B}) = \left[
+		\begin{matrix}
+		b_{11}      &  b_{21}       & \cdots &  b_{n1}       \\
+		b_{12}      &  b_{22}      & \cdots &  b_{n2}      \\
+		\vdots & \vdots & \ddots & \vdots \\
+		b_{1n}      &  b_{2n}      & \cdots &  b_{nn}      \\
+		\end{matrix}
+		\right] = \mathbf{B}^{\mathrm{T}}		
+		\end{equation*}
+	
+	\end{parts}
+\end{solution}
+
+
+
+\question
+(Eigenthings) Let $\bx$ be an eigenvector of a matrix $\mathbf{A}$ with corresponding eigenvalue $\lambda$, then
+\begin{parts}
+	\part 
+	Show that for any $\gamma \in \mathbb{R}$, the $\bx$ is an eigenvector of $\mathbf{A}+\gamma I$ with eigenvalue $\lambda + \gamma$.
+	\part If $\mathbf{A}$ is invertible, then $\bx$ is an eigenvector of $\mathbf{A}^{-1}$ with eigenvalue $\lambda^{-1}$.
+	
+	\part $\mathbf{A}^k \bx = \lambda ^k \bx$ for any $k \in \mathbb{Z}$ ( $\mathbf{A}^0 = I$ by definition)
+	
+\end{parts}  
+
+\begin{solution}
+	\begin{parts}
+		\part We have
+		\begin{equation*}
+		(\mathbf{A} + \gamma I) \bx = \mathbf{A}\bx + \gamma \bx = (\lambda + \gamma) \bx
+		\end{equation*}
+		
+		\part Suppose $\mathbf{A}$ is invertible, then 
+		\begin{equation*}
+		\bx = \mathbf{A}^{-1}\mathbf{A}\bx = \mathbf{A}^{-1}(\lambda \bx) = \lambda \mathbf{A}^{-1} \bx
+		\end{equation*}
+		such that we have $\mathbf{A}^{-1} \bx = \frac1\lambda \bx$.
+		
+		\part The case $k>0$ follows immediately by induction on $k$, as
+		\begin{equation*}
+		\begin{aligned}
+		\mathbf{A}\bx & = \lambda \bx \\
+		\mathbf{A}^2\bx & = \mathbf{A} \cdot \mathbf{A} \bx = \lambda^2 \bx \\
+		\mathbf{A}^3 \bx &= \mathbf{A} \cdot \mathbf{A}^2 \bx = \lambda^3 \bx \\
+		\cdots
+		\end{aligned}
+		\end{equation*}
+	\end{parts}
+\end{solution}
+
+
+
+
+
+\question
+(Matrix derivative) $\bx, \bw \in \mathbb{R}^n$, and $\mathbf{A} \in \mathbb{R}^{n\times n}$. We have $f:\mathbb{R}^n\to\mathbb{R}$ as
+\begin{equation*} \label{matderv}
+f(\bx) = \bx^{\mathrm{T}}\mathbf{A}\bx + \bw^{\mathrm{T}}\bx
+\end{equation*}
+Please give the $\nabla_{\bx}f(\bx)$.
+
+\begin{solution}
+	The standard solution is, first, we give the differential of $f(\bx)$:
+	\begin{equation*}
+	\begin{aligned}
+	df(\bx) &= \sum_{i=1}^n \frac{\partial f(\bx)}{\partial x_i}dx_i \\
+	&= \frac{\partial f(\bx)}{\partial \bx}^{\mathrm{T}} d\bx \\
+	&= \tr \left ( \frac{\partial f(\bx)}{\partial \bx}^{\mathrm{T}} d\bx \right )
+	\end{aligned}
+	\end{equation*}
+	Here we use the trace trick, that is, for a scalar $a$ we have $\tr(a)=a$. Then, for the function above we derive its differential
+	\begin{equation*}
+	\begin{aligned}
+	df(\bx) &= d\bx^{\mathrm{T}}\mathbf{A} \bx + \bx^{\mathrm{T}}\mathbf{A}d \bx + \bw^{\mathrm{T}} d \bx \\
+	&= \tr(d\bx^{\mathrm{T}}\mathbf{A} \bx) + \tr(\bx^{\mathrm{T}}\mathbf{A} d \bx + \bw^{\mathrm{T}} d \bx) \\
+	&= \tr(\bx^{\mathrm{T}}\mathbf{A}^{\mathrm{T}}d\bx) + \tr(\bx^{\mathrm{T}}\mathbf{A} d \bx + \bw^{\mathrm{T}} d \bx) \\
+	&= \tr \left ( (\bx^{\mathrm{T}}\mathbf{A}^{\mathrm{T}}+ \bx^{\mathrm{T}}\mathbf{A} +   \bw^{\mathrm{T}})d \bx \right )	
+	\end{aligned}
+	\end{equation*}
+	Refer to the above two equations, we have
+	
+	\begin{equation*}
+	\frac{\partial f(\bx)}{\partial \bx}^{\mathrm{T}} d\bx = (\bx^{\mathrm{T}}\mathbf{A}^{\mathrm{T}}+ \bx^{\mathrm{T}}\mathbf{A} +   \bw^{\mathrm{T}})d \bx
+	\end{equation*}
+	which means 
+	\begin{equation*}
+	\frac{\partial f(\bx)}{\partial \bx} = \mathbf{A} \bx+ \mathbf{A}^{\mathrm{T}}\bx + \bw
+	\end{equation*}
+	
+	Or simply, you can remember the result for convenience
+	\begin{equation*}
+	\begin{aligned}
+	\frac{\partial \bx^{\mathrm{T}}\mathbf{A} \bx}{\partial \bx} &= (\mathbf{A}^{\mathrm{T}}+\mathbf{A})\bx \\
+	\frac{\partial \bw^{\mathrm{T}} \bx}{\partial \bx} &= \bw
+	\end{aligned}
+	\end{equation*}
+	\end{solution}
+	
+	
+Probability Theory Part
+
+	\question (Conditional Probability) For discrete random variables, the conditional probability can be derived by Product Rule.
+	\begin{equation*}
+	p\left(X,Y\right)=p\left(Y|X\right)p\left(X\right)
+	\end{equation*}
+	We can define the conditional expectation as 
+	\begin{equation*}
+	\mathbb{E}\left[Y|X=x\right] \triangleq\ \sum_{y\in \mathcal{Y}}y \cdot p\left(Y=y|X=x\right)
+	\end{equation*}
+	Explain that
+	\begin{parts}
+		\part $\mathbb{E}\left[X|X\right]=X$
+		\part $\mathbb{E}\left[\mathbb{E}\left[X|Y\right]\right]=\mathbb{E}[X]$
+	
+	\end{parts}
+    \begin{solution}
+    	\begin{parts}
+    		\part
+    		
+    		\begin{equation*}
+    		p\left(X=x|X=x\right)=1
+    		\end{equation*}
+    		\begin{equation*}
+    		\mathbb{E}\left[X|X\right]=X\cdot p\left(X|X\right)=X
+    		\end{equation*}
+    		\part 
+    		
+    		\begin{equation*}
+    		\begin{aligned}
+    		\mathbb{E}\left[\mathbb{E}\left[X|Y\right]\right]&=\mathbb{E}\left[g(Y)\right]\\
+    		&=\sum_{y \in \mathcal{Y}}p\left(Y=y\right) \cdot \left[\sum_{x \in \mathcal{X}}x\cdot p\left(X=x|Y=y\right)\right]\\
+    		&=\sum_{x \in \mathcal{X}}\sum_{y \in \mathcal{Y}}x \cdot p\left(X=x,Y=y\right)\\
+    		&=\mathbb{E}\left[X\right]
+    		\end{aligned}
+    		\end{equation*} 
+    		\end{parts}
+    	\end{solution}
+	\question (Bayes) A city has a 50\% chance to rain everyday and the weather report has a 90\% chance to correctly forecast.\\
+	You will take an umbrella when the report says it will rain and you have a 50\% chance to take an umbrella when the report says it will not rain.\\
+	Compute
+	\begin{parts} 
+		\part the probability of raining when you don't take an umbralla;
+		\part the probability of not rainning when you take an umbrella.
+	\end{parts}
+    \begin{solution}
+    	Let's evaluate the question. $\overline{A}$ denotes the opposite events of $A$.\\ 
+    	Let A be the event $\mathbf{Rain}$.
+    	\begin{equation*}
+    	p\left(A\right)=p\left(\overline{A}\right)=0.5
+    	\end{equation*}
+    	Let B be the event $\mathbf{Forecasting \ Rain}$.
+    	\begin{equation*}
+    	p\left(B|A\right)=p\left(\overline{B}|\overline{A}\right)=0.9
+    	\end{equation*}
+    	Let C be the event $\mathbf{Taking \ Umbrella}$.
+    	\begin{equation*}
+    	p\left(C|B\right)=1
+    	\end{equation*}
+    	\begin{equation*}
+    	p\left(C|\overline{B}\right)=0.5
+    	\end{equation*}
+    	OK, now let's come to the questions.
+    	\begin{parts}
+    		\part the probability of raining when you don't take an umbralla $= p\left(A|\overline{C}\right)$
+    		\begin{equation*}
+    		p\left(A|\overline{C}\right)=\frac{p\left(A\right)p\left(\overline{C}|A\right)}
+    		{p\left(A\right)p\left(\overline{C}|A\right)+p\left(\overline{A}\right)p\left(\overline{C}|\overline{A}\right)}
+    		\end{equation*}
+    		\begin{equation*}
+    		p\left(\overline{C}|A\right)=p\left(\overline{C}|AB\right)p\left(B|A\right)+p\left(\overline{C}|A\overline{B}\right)p\left(\overline{B}|A\right)
+    		=0*0.9+0.5*0.1=0.05
+    		\end{equation*}
+    		\begin{equation*}
+    		p\left(\overline{C}|\overline{A}\right)=p\left(\overline{C}|\overline{A}B\right)p\left(B|\overline{A}\right)+p\left(\overline{C}|\overline{A}\overline{B}\right)p\left(\overline{B}|\overline{A}\right)
+    		=0*0.1+0.5*0.9=0.45
+    		\end{equation*}
+    		Here, we use that 
+    		\begin{equation*}
+    	    p\left(\overline{C}|AB\right)=p\left(\overline{C}|B\right)
+    		\end{equation*}
+    	    
+    		\begin{equation*}
+    		p\left(A|\overline{C}\right)=\frac{0.5*0.05}{0.5*0.05+0.5*0.45}=0.1
+    		\end{equation*}
+    		
+    		\part the probability of not rainning when you take an umbrella $= p\left(\overline{A}|C\right)$\\
+    		The deduction is the same, so let me omit some steps.
+    		\begin{equation*}
+    		p\left(\overline{A}|C\right)=\frac{0.5*0.55}{0.5*0.55+0.5*0.95}=\frac{11}{30}
+    		\end{equation*}
+    		
+    	\end{parts}
+    	
+    \end{solution}
+	\question (Joint Distribution) Random Variables $X$ and $Y$ have a joint distribution with joint probability density function
+	\begin{equation*}
+	f(x,y) = \left\{
+	\begin{array}{rcl}
+	Ce^{-(2x+y)}&   & x>0, y>0\\
+	0\quad\quad & & ow.
+	\end{array}\right.
+	\end{equation*}
+	Please find $C$ by 
+	\begin{equation*}
+	\int_0^\infty\int_0^\infty f(x,y)\mathrm{d}x\mathrm{d}y=1 
+	\end{equation*}
+	\begin{solution}
+		\begin{equation*}
+		C\int_0^\infty\int_0^\infty  e^{-(2x+y)}\mathrm{d}x\mathrm{d}y=C\cdot \frac 12 \cdot 1=1 
+		\end{equation*}
+		\begin{equation*}
+		C = 2
+		\end{equation*}
+		
+    \end{solution}
+	
+	\question (Covariance) For two random variables $X$ and $Y$, the covariance is defined by
+	\begin{equation*}
+	\mathrm{Cov}\left[X,Y\right]=\mathbb{E}\left[XY\right]-\mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+	\end{equation*}
+	Now we have a joint pdf
+	\begin{equation*}
+	f(x,y) = \left\{
+	\begin{array}{rcl}
+	4xy&   & 0<x<1, 0<y<1\\
+	0\quad & & ow.
+	\end{array}\right.
+	\end{equation*}
+	Please show that the covariance of $X$ and $Y$ is $0$.
+	\begin{solution}
+		\begin{equation*}
+		\mathbb{E}\left[X\right]=\int_0^1\int_0^1x\cdot 4xy\mathrm{d}x\mathrm{d}y=\frac 23
+		\end{equation*}
+		\begin{equation*}
+		\mathbb{E}\left[Y\right]=\int_0^1\int_0^1y\cdot 4xy\mathrm{d}x\mathrm{d}y=\frac 23
+		\end{equation*}
+	    \begin{equation*}
+		\mathbb{E}\left[XY\right]=\int_0^1\int_0^1xy\cdot 4xy\mathrm{d}x\mathrm{d}y=\frac 49
+		\end{equation*}
+		Thus,
+		 \begin{equation*}
+		\mathrm{Cov}\left[X,Y\right]=0
+		\end{equation*}
+		Of course, if you are clever enough, you will see that they are independent.
+	\end{solution}
+		
+
+	
+	\question (Uncorrelated and independent RVs) We have a uniform distribution of $X$ and $Y$ on a disk. The pdf is 
+	\begin{equation*}
+	f(x,y)=\frac1\pi \qquad x^2+y^2 \le 1
+	\end{equation*}
+	When the covariance of $X$ and $Y$ is $0$, we call them uncorrelated variables.\\
+	For continuous random variables, when the joint pdf can be written as the product of two RVs' pdf
+	\begin{equation*}
+	f\left(x,y\right)=f_X\left(x\right)f_Y\left(y\right),
+	\end{equation*} 
+	we call them independent.\\
+	Please show that $X$ and $Y$ are uncorrelated but not independent.
+	
+	\begin{solution}
+		\begin{equation*}
+		f_{X}(x)=\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}}\frac 1\pi \mathrm{d}y=\frac{2\sqrt{1-x^2}}{\pi} \qquad -1<x<1
+		\end{equation*}
+		Similarly,
+		\begin{equation*}
+		f_{Y}(y)=\frac{2\sqrt{1-y^2}}{\pi}\qquad -1<y<1
+		\end{equation*}
+		Obviusly,
+		\begin{equation*}
+		f(x,y) \neq f_X(x)f_Y(y) \Rightarrow \mathrm{Not \ Independent}
+	    \end{equation*} 
+	    \begin{equation*}
+	    \mathbb{E}\left[X\right]=\int_{-1}^1 x\frac{2\sqrt{1-x^2}}{\pi} \mathrm{d}x=0
+	    \end{equation*}
+	    \begin{equation*}
+	    \mathbb{E}\left[Y\right]=\int_{-1}^1 y\frac{2\sqrt{1-y^2}}{\pi} \mathrm{d}y=0
+	    \end{equation*}
+	    \begin{equation*}
+	    \mathbb{E}\left[XY\right]=\int_{x^2+y^2 \le 1} \frac{xy}{\pi} \mathrm{d}x\mathrm{d}y=0
+	    \end{equation*}
+	    \begin{equation*}
+	    \mathbb{E}\left[XY\right]=\mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]\Rightarrow \mathrm{Uncorrelated}
+	    \end{equation*}
+	    
+	    
+	\end{solution}
+
+	\question(Guassian Distribution)
+	There is a famous integral here
+	\begin{equation*}
+	\int_{-\infty}^{\infty}e^{-x^2}\mathrm{d}x=\sqrt{\pi}
+	\end{equation*}
+	It is called Guassian Integral.
+	Based on it, please find some results of the Normal Distribution
+	\begin{equation*}
+	f(x)=\frac 1{\sigma \sqrt{2\pi}}\exp\left({-\frac{(x-\mu)^2}{2\sigma^2}}\right) \qquad -\infty < x <\infty
+	\end{equation*}  
+	
+	\begin{parts}
+		\part Prove it is a pdf ($\sigma > 0$)
+		\part Compute the expectation and variance
+		%	\part Compute the expectation and variance of log-normal distribution, which means $\ln X \sim f(x)$
+	\end{parts}
+
+    \begin{solution}
+    \begin{parts}
+    	\part 
+    	\begin{equation*}
+    	\int_{-\infty}^{\infty}f(x)\mathrm{d}x=\int_{-\infty}^{\infty}\frac{1}{\sqrt{\pi}}\exp \left(-\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)^2\right)\mathrm{d}\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)=1
+    	\end{equation*}
+    	\part
+    	 \begin{equation*}
+    	 \begin{aligned}
+    	 \int_{-\infty}^{\infty}xf(x)\mathrm{d}x&=\int_{-\infty}^{\infty}\left(x-\mu+\mu \right)\frac{1}{\sqrt{\pi}}\exp\left(-\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)^2\right)\mathrm{d}\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)\\
+    	 &=\mu+\int_{-\infty}^{\infty}\frac{\sigma}{\sqrt{2\pi}}\exp\left(-\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)^2\right)\mathrm{d}\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)^2\\
+    	 &=\mu
+    	 \end{aligned}
+    	\end{equation*}
+    	
+    	\begin{equation*}
+    	\begin{aligned}
+    	\int_{-\infty}^{\infty}x^2 e^{-x^2}\mathrm{d}x&=	\int_{-\infty}^{\infty}\frac 12 x e^{-x^2}\mathrm{d}x^2\\
+    	&=-\int_{-\infty}^{\infty}\frac 12 x\mathrm{d}e^{-x^2}\\
+    	&=\int_{-\infty}^{\infty}\frac 12 e^{-x^2}\mathrm{d}x- \left.\frac 12 xe^{-x^2} \right|_{-\infty}^{+\infty}\\
+    	&=\frac{\sqrt{\pi}}{2}
+    	\end{aligned}
+    	\end{equation*}
+    	\begin{equation*}
+    	\begin{aligned}
+    	\int_{-\infty}^{\infty}x^2f(x)\mathrm{d}x&=\int_{-\infty}^{\infty}\frac{(x-\mu)^2+2\mu x -\mu^2}{\sqrt{\pi}}\exp\left(-\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)^2\right)\mathrm{d}\left(\frac{x-\mu}{\sqrt{2}\sigma}\right)\\
+    	&=\frac{\sqrt{\pi}}{2} \cdot \frac{2\sigma^2}{\sqrt{\pi}}+2\mu\cdot\mu-\mu\cdot\mu\\
+    	&=\sigma^2+\mu^2
+    	\end{aligned}
+    	\end{equation*}
+    	Therefore,
+    	\begin{equation*}
+    	\mathbb{E}\left[X\right]=\mu
+    	\end{equation*}
+	    \begin{equation*}
+        \mathrm{Var}\left[X\right]=\sigma^2+\mu^2-\mu^2=\sigma^2
+        \end{equation*}
+    	\end{parts}
+	\end{solution}
+
+
+
+
+
+
+\end{questions}	
+
+\end{document}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+%  LocalWords:  headandfoot covariance
