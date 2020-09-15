@@ -1,0 +1,277 @@
+\documentclass[handout]{beamer} %
+
+ 
+\mode<presentation>
+{
+%\usetheme[titleprogressbar]{m}
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\setbeamerfont{section in toc}{size=\Large}
+\setbeamerfont{subsection in toc}{size=\large}
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\usepackage{scrextend}
+
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{verbatim}
+\usepackage{bm}
+\usepackage{listings}
+\usepackage{amsmath} 
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{xmpmulti}
+\usepackage{url}
+%\newcounter{propCounter} 
+
+\newtheorem{prop}{Proposition}
+ \setbeamertemplate{theorems}[numbered]
+
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+  \item[\hskip\labelsep
+        \itshape
+    #1\@addpunct{.}]\mbox{} 
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+ 
+\newenvironment<>{proofs}[1][\proofname]{%
+    \par
+    \def\insertproofname{#1\@addpunct{.}}%
+    \usebeamertemplate{proof begin}#2}
+  {\usebeamertemplate{proof end}}
+ \newenvironment<>{proofe}{%
+    \par
+    \pushQED{\qed}
+    \setbeamertemplate{proof begin}{\begin{block}{}}
+    \usebeamertemplate{proof begin}}
+  {\popQED\usebeamertemplate{proof end}}
+
+\makeatother
+
+
+
+
+\def\blockSqz{\vspace*{-\baselineskip}\setlength\belowdisplayshortskip{0pt}}
+\def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
+\usepackage{mathtools}
+\hypersetup{colorlinks=false,linkcolor=green,pdfborderstyle={/S/U/W 1}}
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\usetikzlibrary{decorations.pathreplacing,calc}
+
+\newcommand{\tikzmark}[2][-3pt]{\tikz[remember picture, overlay, baseline=-0.5ex]\node[#1](#2){};}
+
+\tikzset{brace/.style={decorate, decoration={brace}},
+ brace mirrored/.style={decorate, decoration={brace,mirror}},
+}
+
+\newcounter{brace}
+\setcounter{brace}{0}
+\newcommand{\drawbrace}[3][brace]{%
+ \refstepcounter{brace}
+ \tikz[remember picture, overlay]\draw[#1] (#2.center)--(#3.center)node[pos=0.5, name=brace-\thebrace]{};
+}
+
+\newcounter{arrow}
+\setcounter{arrow}{0}
+\newcommand{\drawcurvedarrow}[3][]{%
+ \refstepcounter{arrow}
+ \tikz[remember picture, overlay]\draw (#2.center)edge[#1]node[coordinate,pos=0.5, name=arrow-\thearrow]{}(#3.center);
+}
+
+% #1 options, #2 position, #3 text 
+\newcommand{\annote}[3][]{%
+ \tikz[remember picture, overlay]\node[#1] at (#2) {#3};
+}
+\usepackage{ellipsis} \renewcommand{\ellipsisgap}{0.05em}
+\lstset{ 
+  basicstyle=\ttfamily\footnotesize
+}
+\def\a{\alpha}
+\def\dash{\text{ --- }}
+\def\E{\mathbb{E}}
+\def\one{\mathbf{1}}
+\def\xit[#1]{{(x^{({#1})})}^T}%{(x^{(1)})}^T }
+\DeclareMathOperator*{\argmin}{arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max} 
+\input{code-style.tex}
+\title[Learning From Data]{Learning From Data \\ Review Session:  Scientific Programming in Python  }
+
+%\author{Shao-Lun Huang  \quad shaolun.huang@sz.tsinghua.edu.cn  }%\\
+ %\smallskip
+\author{ Feng Zhao  \quad zhaof17@mails.tsinghua.edu.cn}
+%\institute{TBSI}
+\date{9/18/2020}
+
+\begin{document}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\newcommand{\myalert}[1][]{\color{red} #1}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\AtBeginSection[]{%
+  \begin{frame}<beamer> 
+  
+  \tableofcontents[ 
+    currentsubsection, 
+    hideothersubsections, 
+    sectionstyle=show/hide, 
+    subsectionstyle=show/shaded/hide]
+  \end{frame}
+  \addtocounter{framenumber}{-1}% If you don't want them to affect the slide number
+}
+ % Uncomment these lines for an automatically generated outline.
+ %\begin{frame}{Outline}
+ % \tableofcontents
+ %\end{frame}
+ 
+\section{Introduction}
+ 
+\begin{frame}{Overview}
+
+%\begin{itemize}
+ %\item 
+ 
+ \begin{itemize}
+ % \item Review on Generalized Linear Models
+ \item Environment choices
+  \item Popular packages in Python
+  \begin{itemize}
+  	\item \texttt{numpy}
+  	\item 
+  	\texttt{scipy}
+  	\item 
+  	\texttt{matplotlib} 
+  \end{itemize}
+  \item GitHub classroom
+  \end{itemize}  
+\end{frame}
+
+\begin{frame}{Scientific Programming Tools}
+\begin{itemize}
+	\item Operating Systems, containers and Clusters
+	\item Programming Language
+	\begin{itemize}
+		\item interpreted language: Python
+		\item compiled language: C, C++
+	\end{itemize}
+	\item Package manager for Python
+	\begin{itemize}
+		\item pip: \url{https://pypi.org}
+		\item conda: \url{https://anaconda.org}
+		\end{itemize}
+\end{itemize}
+In this course, conda is recommended.
+\end{frame}
+\begin{frame}{Tips for using conda}
+\begin{itemize}
+	\item Download: \url{https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/}
+	\item Setup Mirror: \url{https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/}
+	\item Install packages: \texttt{conda install scipy matplotlib}
+	\item Check your install: \texttt{python -c "import numpy; print(numpy.\_\_version\_\_)"}
+\end{itemize}
+\end{frame}
+\section{Popular packages in Python}
+\begin{frame}[fragile]{Numpy}
+Numpy: n-dimensional array manipulation
+\begin{block}{Code snippet}
+create a vector of length 3 and compute its $\ell_2$ norm
+\begin{lstlisting}[language=Python]
+import numpy as np
+a = np.array([1, 2, 3])
+print(np.linalg.norm(a))
+\end{lstlisting}
+
+compute the eigenvalues of a square matrix:
+\begin{lstlisting}[language=Python,firstnumber=4]
+A = np.array([[1, 2], [3, 4]])
+print(np.linalg.eig(A)[0])
+\end{lstlisting}
+
+compute
+the summation of each row for a matrix
+\begin{lstlisting}[language=Python, firstnumber=6]
+A = np.array([[1, 2], [3, 4], [5, 6]])
+print(np.sum(A, axis=1))
+\end{lstlisting}
+
+matrix product
+\begin{lstlisting}[language=Python,firstnumber=8]
+print(A @ np.array([1, 1]))
+\end{lstlisting}
+\end{block}
+\end{frame}
+\begin{frame}[fragile]{Scipy}
+Scipy:  algorithms of applied mathematics
+\begin{block}{Code snippet}
+the pdf of normal distribution
+\begin{lstlisting}[language=Python,firstnumber=9]
+import scipy.stats
+x = np.linspace(-3, 3)
+y = scipy.stats.norm.pdf(x)
+print(x, y)
+\end{lstlisting}
+\end{block}
+\end{frame} 
+\begin{frame}[fragile]{Matplotlib}
+Matplotlib -- plotting experiment results
+\begin{block}{Code snippet}
+	sample data from Gaussian and draw histogram
+	\begin{lstlisting}[language=Python,firstnumber=13]
+	import matplotlib.pyplot as plt
+	c = np.random.normal(size=1000)
+	plt.hist(c, density=True)
+	plt.plot(x, y)
+	plt.show()
+	\end{lstlisting}
+\end{block}
+\end{frame}
+\begin{frame}{Summary}
+\begin{itemize}
+	\item Numpy
+	\item Scipy
+	\item Matplotlib
+\end{itemize}
+Further reference: \url{https://cs231n.github.io/python-numpy-tutorial/}
+\end{frame}
+\begin{frame}{GitHub Classroom}
+Places to submit your programming assignments
+\begin{enumerate}
+	\item Register an account for GitHub
+	\item Use Invitation URL to get the starting code
+	\item Upload your modification to your own repository
+\end{enumerate}
+\end{frame}
+\begin{frame}{Have a try}
+\emph{Linear regression.} Consider the linear observation model
+\begin{equation*}
+\bm{y} = X\bm{w} + \bm{c}
+\end{equation*}
+where the $X$ is a $10000 \times 10$ matrix, and $\bm{w},\bm{c}$ are column vectors with length 10 and 10000.
+Use programming to find the $a$ that minimizes the loss $\frac12 \|X\bm{w}-y\|^2_2$. See details in the \textbf{linear\_regression.py}.
+
+Invitation URL: \url{https://classroom.github.com/a/ylEoHU6G}
+\end{frame}
+\end{document}
