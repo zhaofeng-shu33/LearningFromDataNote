@@ -171,8 +171,8 @@
 
 \begin{frame}{Scientific Programming Tools}
 \begin{itemize}
-	\item Operating Systems, containers and Clusters
-	\item Programming Language
+	\item Operating systems, containers and clusters
+	\item Programming language
 	\begin{itemize}
 		\item interpreted language: Python
 		\item compiled language: C, C++
@@ -250,28 +250,36 @@ Matplotlib -- plotting experiment results
 \end{frame}
 \begin{frame}{Summary}
 \begin{itemize}
-	\item Numpy
-	\item Scipy
-	\item Matplotlib
+	\item numpy
+	\item scipy
+	\item matplotlib
 \end{itemize}
 Further reference: \url{https://cs231n.github.io/python-numpy-tutorial/}
 \end{frame}
 \begin{frame}{GitHub Classroom}
 Places to submit your programming assignments
+
+\begin{block}{Steps}
 \begin{enumerate}
 	\item Register an account for GitHub
 	\item Use Invitation URL to get the starting code
-	\item Upload your modification to your own repository
+	\item Upload your modification to your own workspace
+	\item Check the Autograding; Should be \textcolor{green}{\checkmark}; No \textcolor{red}{X} mark
 \end{enumerate}
+\end{block}
 \end{frame}
 \begin{frame}{Have a try}
-\emph{Linear regression.} Consider the linear observation model
+\begin{block}{Linear regression}
+Consider the linear observation model
 \begin{equation*}
 \bm{y} = X\bm{w} + \bm{c}
 \end{equation*}
 where the $X$ is a $10000 \times 10$ matrix, and $\bm{w},\bm{c}$ are column vectors with length 10 and 10000.
 Use programming to find the $a$ that minimizes the loss $\frac12 \|X\bm{w}-y\|^2_2$. See details in the \textbf{linear\_regression.py}.
-
-Invitation URL: \url{https://classroom.github.com/a/ylEoHU6G}
+\end{block}
+\begin{itemize}
+\item Invitation URL: \url{https://classroom.github.com/a/ylEoHU6G}
+\item Hint: use the formula: $\bm{w} = (X^TX)^{-1} X^T\bm{y}$.
+\end{itemize}
 \end{frame}
 \end{document}
