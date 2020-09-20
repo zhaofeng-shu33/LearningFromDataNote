@@ -1,0 +1,3 @@
+[submodule "pa1/template"]
+	path = pa1/template
+	url = https://github.com/TBSILearningFromDataFall2020/PA1.git
