@@ -110,7 +110,7 @@ w_{t+1} \leftarrow w_t - H^{-1} \nabla_w \mathcal{L}(w)|_{w_t}
 where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
 The scheme can be written in compact form as:
 \begin{equation*}
-\bm{w}_{t+1} = \bm{w}_t + (XRX^T)^{-1} X(\bm{y}-\bm{u}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{w}_i^T\bm{x}_i)} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
+\bm{w}_{t+1} = \bm{w}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{u}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{w}_i^T\bm{x}_i)} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
 \end{equation*}
 where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
 
