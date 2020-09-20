@@ -1,0 +1,137 @@
+\documentclass[a4paper, 12pt]{exam}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage{advdate}
+\usepackage{datetime}
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{hyperref}
+\newdate{issuedate}{25}{9}{2020}
+\newdate{duedate}{9}{10}{2020}
+
+% \newcommand{\duedate}[1][14]{%
+% \begingroup
+% \AdvanceDate[#1]%
+% \today%
+% \endgroup
+% }%
+
+\usepackage[thehwcnt=1]{iidef}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+\thecoursename{Learning From Data}
+\theterm{Fall 2020}
+\makeatletter
+\@ifclasswith{exam}{answers}{\newcommand{\firstblock}{../preknowledge/comments_ldps1}}{\newcommand{\firstblock}{programming_policies}}
+\makeatother
+
+\begin{document}
+
+\pagestyle{headandfoot}
+\runningheadrule
+
+
+\newcounter{psctr}
+\setcounter{psctr}{1} % set to the times of problem
+
+\runningheader{Programming Assignment \thepsctr}
+              {\textsc{Learning from Data}}
+              { Page \thepage\ of \numpages}
+\firstpagefooter{}{}{}
+\runningfooter{}{}{}
+
+
+\newcounter{Sequ}
+\newenvironment{Sequation}
+   {\stepcounter{Sequ}%
+     \addtocounter{equation}{-1}%
+     \renewcommand\theequation{S\arabic{Sequ}}\equation}
+   {\endequation}
+%\topskip0pt
+
+% \vspace*{\fill}
+\centering
+
+% \vspace{0.3em}
+\centering
+\renewcommand{\thequestion}{\arabic{psctr}.\arabic{question}}
+\hwname{Programming Assignment}
+\courseheader
+\begin{flushleft}
+  \textbf{Issued:} \displaydate{issuedate} \hfill
+  \textbf{Due:} \displaydate{duedate} 
+\end{flushleft}
+
+\hrule 
+
+\input{\firstblock}
+
+%\pointname{}
+%\vspace{\footskip}
+\vspace{1em}
+
+
+%\pointname{}
+%\vspace{\footskip}
+%\vspace{1em}
+
+\begin{questions}
+\question (5 points) \emph{Linear regression with regulation} You have learned in class the linear observation model
+\begin{equation*}
+\bm{y} = X\bm{w} + \bm{c}
+\end{equation*}
+where the $X$ is the observation matrix;
+$\bm{w}$ is the weight vector to be estimated and $\bm{c}$ is the Gaussian noise.
+
+We know that ordinary linear regression uses the formula $\bm{w} = (X^TX)^{-1}X^T\bm{y}$ to calculate the weight, which is the minimizer
+of $||\bm{y} - X\bm{w}||^2$.
+When the matrix $X^TX$ is near singular, ordinary regression does not work well. This happens when
+the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the independent variables.
+For example, the rank of $X$ is only $9$, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
+$||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\lambda$ as Ridge Regression.
+
+Please implement Ridge regression using only \texttt{numpy}. You can see the details in the \textbf{ridge\_regression.py}.
+Your implementation should handle the multicollinearity case.
+
+Hint: Minimize the loss $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ is equivalent with solving the equation
+$( X^T X+ \alpha I)\bm{w}  = X^T \bm{y}$.
+
+\question (5 points) \emph{Logistic regression with Newton's method} You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximize:
+\begin{equation*}
+\mathcal{L}(w) = \sum_{i=1}^n y_i \bm{w}^T \bm{x}_i - \log ( 1 + \exp(\bm{w}^T \bm{x}_i))
+\end{equation*}
+We can use Newton's method to find the optimal $\bm{w}$, which uses the following update scheme for $\bm{w}$:
+\begin{equation*}
+w_{t+1} \leftarrow w_t - H^{-1} \nabla_w \mathcal{L}(w)|_{w_t}
+\end{equation*}
+where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
+The scheme can be written in compact form as:
+\begin{equation*}
+\bm{w}_{t+1} = \bm{w}_t + (XRX^T)^{-1} X(\bm{y}-\bm{u}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{w}_i^T\bm{x}_i)} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
+\end{equation*}
+where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
+
+Please implement the iteration step for IRLS. You need to fit in the missing functions in \textbf{logistic\_regression.py}.
+
+\end{questions}
+
+
+\nocite{*}
+\begin{flushleft}
+\textbf{Notice}: \\
+\begin{enumerate}
+\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
+\item All questions assume that the data are centered around zero. Therefore, you do not need to train the extra bias parameter in your code.
+\end{enumerate}
+\end{flushleft}
+
+%\bibliographystyle{plain}
+%\bibliography{ref}
+%\begin{thebibliography}{9}
+%	\bibitem{ridge} \href{https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Ridge_Regression.pdf}{Ridge Regression}
+%	\bibitem{tutorial} \href{https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net}{Regularization: Ridge, Lasso and Elastic Net}
+%\end{thebibliography}
+\end{document}
