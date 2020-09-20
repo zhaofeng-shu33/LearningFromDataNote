@@ -93,7 +93,7 @@ the data suffer from multicollinearity. Multicollinearity means there exists nea
 For example, the rank of $X$ is only $9$, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
 $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\lambda$ as Ridge Regression.
 
-Please implement Ridge regression using only \texttt{numpy}. You can see the details in the \textbf{ridge\_regression.py}.
+Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
 Your implementation should handle the multicollinearity case.
 
 Hint: Minimize the loss $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ is equivalent with solving the equation
@@ -114,7 +114,7 @@ The scheme can be written in compact form as:
 \end{equation*}
 where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
 
-Please implement the iteration step for IRLS. You need to fit in the missing functions in \textbf{logistic\_regression.py}.
+Please implement IRLS. See details in \textbf{logistic\_regression.py}.
 
 \end{questions}
 
@@ -124,6 +124,7 @@ Please implement the iteration step for IRLS. You need to fit in the missing fun
 \textbf{Notice}: \\
 \begin{enumerate}
 \item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
+\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
 \item All questions assume that the data are centered around zero. Therefore, you do not need to train the extra bias parameter in your code.
 \end{enumerate}
 \end{flushleft}
