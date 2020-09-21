@@ -90,8 +90,8 @@ We know that ordinary linear regression uses the formula $\bm{w} = (X^TX)^{-1}X^
 of $||\bm{y} - X\bm{w}||^2$.
 When the matrix $X^TX$ is near singular, ordinary regression does not work well. This happens when
 the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the independent variables.
-For example, the rank of $X$ is only $9$, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
-$||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\lambda$ as Ridge Regression.
+For example, when the columns of matrix $X$ are dependent, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
+$||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\alpha$ as Ridge Regression.
 
 Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
 Your implementation should handle the multicollinearity case.
