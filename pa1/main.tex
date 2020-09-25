@@ -79,24 +79,24 @@
 %\vspace{1em}
 
 \begin{questions}
-\question (5 points) \emph{Linear regression with regulation} You have learned in class the linear observation model
+\question (5 points) \emph{Linear regression with regulation} You have learned in class that the linear observation model
 \begin{equation*}
 \bm{y} = X\bm{w} + \bm{c}
 \end{equation*}
-where the $X$ is the observation matrix;
+where the $X$ is the observation matrix,
 $\bm{w}$ is the weight vector to be estimated and $\bm{c}$ is the Gaussian noise.
 
-We know that ordinary linear regression uses the formula $\bm{w} = (X^TX)^{-1}X^T\bm{y}$ to calculate the weight, which is the minimizer
+We know that ordinary linear regression uses the formula $\bm{w} = (X^TX)^{-1}X^T\bm{y}$ to estimate the weight, which is the minimizer
 of $||\bm{y} - X\bm{w}||^2$.
 When the matrix $X^TX$ is near singular, ordinary regression does not work well. This happens when
-the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the independent variables.
-For example, when the columns of matrix $X$ are dependent, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
-$||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\alpha$ as Ridge Regression.
+the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the feture vectors (i.e. column vectors of $X$).
+For example, when the columns of matrix $X$ are linear dependent, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
+$\min ||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\alpha$ as Ridge Regression.
 
 Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
 Your implementation should handle the multicollinearity case.
 
-Hint: Minimize the loss $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ is equivalent with solving the equation
+Hint: Minimizing the loss $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ is equivalent to solving the equation
 $( X^T X+ \alpha I)\bm{w}  = X^T \bm{y}$.
 
 \question (5 points) \emph{Logistic regression with Newton's method} You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximize:
