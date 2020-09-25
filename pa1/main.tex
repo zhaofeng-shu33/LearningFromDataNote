@@ -29,110 +29,114 @@
 \makeatother
 
 \begin{document}
-
-\pagestyle{headandfoot}
-\runningheadrule
-
-
-\newcounter{psctr}
-\setcounter{psctr}{1} % set to the times of problem
-
-\runningheader{Programming Assignment \thepsctr}
-              {\textsc{Learning from Data}}
-              { Page \thepage\ of \numpages}
-\firstpagefooter{}{}{}
-\runningfooter{}{}{}
-
-
-\newcounter{Sequ}
-\newenvironment{Sequation}
-   {\stepcounter{Sequ}%
-     \addtocounter{equation}{-1}%
-     \renewcommand\theequation{S\arabic{Sequ}}\equation}
-   {\endequation}
-%\topskip0pt
-
-% \vspace*{\fill}
-\centering
-
-% \vspace{0.3em}
-\centering
-\renewcommand{\thequestion}{\arabic{psctr}.\arabic{question}}
-\hwname{Programming Assignment}
-\courseheader
-\begin{flushleft}
-  \textbf{Issued:} \displaydate{issuedate} \hfill
-  \textbf{Due:} \displaydate{duedate} 
-\end{flushleft}
-
-\hrule 
-
-\input{\firstblock}
-
-%\pointname{}
-%\vspace{\footskip}
-\vspace{1em}
-
-
-%\pointname{}
-%\vspace{\footskip}
-%\vspace{1em}
-
-\begin{questions}
-\question (5 points) \emph{Linear regression with regularization} You have learned in class that the linear observation model
-\begin{equation*}
-\bm{y} = X\bm{w} + \bm{c}
-\end{equation*}
-where the $X$ is the observation matrix,
-$\bm{w}$ is the weight vector to be estimated and $\bm{c}$ is the Gaussian noise.
-
-We know that ordinary linear regression uses the formula $\bm{w} = (X^TX)^{-1}X^T\bm{y}$ to estimate the weight, which is the minimizer
-of $||\bm{y} - X\bm{w}||^2$.
-When the matrix $X^TX$ is near singular, ordinary regression does not work well. This happens when
-the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the feture vectors (i.e. column vectors of $X$).
-For example, when the columns of matrix $X$ are linear dependent, then $X^TX$ is singular. To overcome this problem, we try to solve an alternative optimization problem
-$\min ||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ where $\alpha \geq 0$ is a hyper-parameter. We call the method with extra $\alpha$ as Ridge Regression.
-
-Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
-Your implementation should handle the multicollinearity case.
-
-Hint: Minimizing the loss $||\bm{y} - X\bm{w}||^2 + \alpha ||\bm{w}||^2$ is equivalent to solving the equation
-$( X^T X+ \alpha I)\bm{w}  = X^T \bm{y}$.
-
-\question (5 points) \emph{Logistic regression with Newton's method} You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximize:
-\begin{equation*}
-\mathcal{L}(w) = \sum_{i=1}^n y_i \bm{w}^T \bm{x}_i - \log ( 1 + \exp(\bm{w}^T \bm{x}_i))
-\end{equation*}
-We can use Newton's method to find the optimal $\bm{w}$, which uses the following update scheme for $\bm{w}$:
-\begin{equation*}
-w_{t+1} \leftarrow w_t - H^{-1} \nabla_w \mathcal{L}(w)|_{w_t}
-\end{equation*}
-where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
-The scheme can be written in compact form as:
-\begin{equation*}
-\bm{w}_{t+1} = \bm{w}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{u}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{w}_i^T\bm{x}_i)} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
-\end{equation*}
-where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
-
-Please implement IRLS. See details in \textbf{logistic\_regression.py}.
-
-\end{questions}
-
-
-\nocite{*}
-\begin{flushleft}
-\textbf{Notice}: \\
-\begin{enumerate}
-\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
-\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
-\item All questions assume that the data are centered around zero. Therefore, you do not need to train the extra bias parameter in your code.
-\end{enumerate}
-\end{flushleft}
-
-%\bibliographystyle{plain}
-%\bibliography{ref}
-%\begin{thebibliography}{9}
-%	\bibitem{ridge} \href{https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Ridge_Regression.pdf}{Ridge Regression}
-%	\bibitem{tutorial} \href{https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net}{Regularization: Ridge, Lasso and Elastic Net}
-%\end{thebibliography}
+	
+	\pagestyle{headandfoot}
+	\runningheadrule
+	
+	
+	\newcounter{psctr}
+	\setcounter{psctr}{1} % set to the times of problem
+	
+	\runningheader{Programming Assignment \thepsctr}
+	{\textsc{Learning from Data}}
+	{ Page \thepage\ of \numpages}
+	\firstpagefooter{}{}{}
+	\runningfooter{}{}{}
+	
+	
+	\newcounter{Sequ}
+	\newenvironment{Sequation}
+	{\stepcounter{Sequ}%
+		\addtocounter{equation}{-1}%
+		\renewcommand\theequation{S\arabic{Sequ}}\equation}
+	{\endequation}
+	%\topskip0pt
+	
+	% \vspace*{\fill}
+	\centering
+	
+	% \vspace{0.3em}
+	\centering
+	\renewcommand{\thequestion}{\arabic{psctr}.\arabic{question}}
+	\hwname{Programming Assignment}
+	\courseheader
+	\begin{flushleft}
+		\textbf{Issued:} \displaydate{issuedate} \hfill
+		\textbf{Due:} \displaydate{duedate} 
+	\end{flushleft}
+	
+	\hrule 
+	
+	\input{\firstblock}
+	
+	%\pointname{}
+	%\vspace{\footskip}
+	\vspace{1em}
+	
+	
+	%\pointname{}
+	%\vspace{\footskip}
+	%\vspace{1em}
+	
+	\begin{questions}
+		\question (5 points) \emph{Linear regression with regularization.} In class, we have learned linear regression using the linear model
+		\begin{equation*}
+		\bm{y} = \bm{X}\bm{\theta} + \bm{n}
+		\end{equation*}
+		where $\bm{X}$ is the observation matrix,
+		$\bm{\theta}$ is the weight vector to be estimated and $\bm{n}$ is the Gaussian noise. To minimize the noise effect in the model, we do a minimization problem
+		\begin{equation*}
+		\min_{\theta}||\bm{y} - \bm{X}\bm{\theta}||^2
+		\end{equation*}
+		and get the best weight estimator
+		$\argmin_{\theta}||\bm{y} - \bm{X}\bm{\theta}||^2 = (\bm{X}^T\bm{X})^{-1}\bm{X}^T\bm{y}$. This process may be in trouble when matrix $\bm{X}^T\bm{X}$ is nearly singular, which means it has very small singular values. %This happens when the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the feture vectors (i.e. column vectors of $X$).
+		%For example, when the columns of matrix $X$ are linear dependent, then $X^TX$ is singular. 
+		To deal with this problem, we add a regularization in linear model and we have
+		\begin{equation*}
+		\min_{\theta} ||\bm{y} - X\bm{\theta}||^2 + \alpha ||\bm{\theta}||^2
+		\end{equation*}
+		where $\alpha \geq 0$ is a hyper-parameter. The method with extra $\alpha$ is also known as Ridge Regression.
+		
+		Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
+		Your implementation should handle the case for $\alpha=0$.
+		
+		Hint: Minimizing the loss $||\bm{y} - X\bm{\theta}||^2 + \alpha ||\bm{\theta}||^2$ is equivalent to solving the equation
+		$( X^T X+ \alpha I)\bm{\theta}  = X^T \bm{y}$.
+		
+		\question (5 points) \emph{Logistic regression with Newton's method} You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximize:
+		\begin{equation*}
+		\mathcal{L}(w) = \sum_{i=1}^n y_i \bm{\theta}^T \bm{x}^{(i)} - \log ( 1 + \exp(\bm{\theta}^T \bm{x}^{(i)}))
+		\end{equation*}
+		We can use Newton's method to find the optimal $\bm{\theta}$, which uses the following update scheme for $\bm{\theta}$:
+		\begin{equation*}
+		\bm{\theta}_{t+1} \leftarrow \bm{\theta}_t - H^{-1} \nabla_{\bm{\theta}} \mathcal{L}(\bm{\theta})|_{\bm{\theta}_t}
+		\end{equation*}
+		where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
+		The scheme can be written in compact form as:
+		\begin{equation*}
+		\bm{\theta}_{t+1} = \bm{\theta}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{\mu}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{\theta}_t^T\bm{x}^{(i)})} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
+		\end{equation*}
+		where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
+		
+		Please implement IRLS. See details in \textbf{logistic\_regression.py}.
+		
+	\end{questions}
+	
+	
+	\nocite{*}
+	\begin{flushleft}
+		\textbf{Notice}: \\
+		\begin{enumerate}
+			\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
+			\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
+			\item All questions assume that the data are centered around zero. Therefore, you do not need to train the extra bias parameter in your code.
+		\end{enumerate}
+	\end{flushleft}
+	
+	%\bibliographystyle{plain}
+	%\bibliography{ref}
+	%\begin{thebibliography}{9}
+	%	\bibitem{ridge} \href{https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Ridge_Regression.pdf}{Ridge Regression}
+	%	\bibitem{tutorial} \href{https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net}{Regularization: Ridge, Lasso and Elastic Net}
+	%\end{thebibliography}
 \end{document}
