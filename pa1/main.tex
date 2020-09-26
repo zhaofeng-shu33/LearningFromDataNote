@@ -1,5 +1,5 @@
 \documentclass[a4paper, 12pt]{exam}
-\usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc} 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumerate}
@@ -81,34 +81,34 @@
 	\begin{questions}
 		\question (5 points) \emph{Linear regression with regularization.} In class, we have learned linear regression using the linear model
 		\begin{equation*}
-		\bm{y} = X\bm{\theta} + \bm{n}
+		\bm{y} = X\bm{\theta} + \bm{\epsilon}
 		\end{equation*}
 		where $\bm{X}$ is the observation matrix,
-		$\bm{\theta}$ is the weight vector to be estimated and $\bm{n}$ is the Gaussian noise. To minimize the noise effect in the model, we do a minimization problem
+		$\bm{\theta}$ is the weight vector to be estimated and $\bm{\epsilon}$ is the Gaussian noise. To minimize the noise effect in the model, we do a minimization problem
 		\begin{equation*}
 		\min_{\theta}||\bm{y} - X\bm{\theta}||^2
 		\end{equation*}
 		and get the best weight estimator
 		$\argmin_{\theta}||\bm{y} - X\bm{\theta}||^2 = (X^TX)^{-1}X^T\bm{y}$.
-		This process may be in trouble when matrix $X^TX$ is nearly singular, which means it has very small singular values. %This happens when the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the feture vectors (i.e. column vectors of $X$).
+		This process may be problematic when matrix $X^TX$ is nearly singular, which means it has very small singular values. %This happens when the data suffer from multicollinearity. Multicollinearity means there exists near-linear relationships among the feture vectors (i.e. column vectors of $X$).
 		%For example, when the columns of matrix $X$ are linear dependent, then $X^TX$ is singular. 
 		To deal with this problem, we add a regularization in linear model and we have
 		\begin{equation*}
 		\min_{\theta} ||\bm{y} - X\bm{\theta}||^2 + \alpha ||\bm{\theta}||^2
 		\end{equation*}
-		where $\alpha \geq 0$ is a hyper-parameter. The method with extra $\alpha$ is also known as Ridge Regression.
+		where $\alpha \geq 0$ is a hyper-parameter. The method with extra $\alpha$ is also known as {em ridge regression}.
 		
-		Please implement Ridge regression. See the details in the \textbf{ridge\_regression.py}.
-		Your implementation should handle the case for $\alpha=0$.
+		Please implement ridge regression  by completing the code in  \textbf{ridge\_regression.py}.
+		Your implementation should handle the case when $\alpha=0$.
 		
 		Hint: Minimizing the loss $||\bm{y} - X\bm{\theta}||^2 + \alpha ||\bm{\theta}||^2$ is equivalent to solving the equation
 		$( X^T X+ \alpha I)\bm{\theta}  = X^T \bm{y}$.
 		
-		\question (5 points) \emph{Logistic regression with Newton's method} You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximize:
+		\question (5 points) \emph{Logistic regression with Newton's method. } You have learned in class that using maximal likelihood to estimate the parameters of the logistic regression model is equivalent to maximizing:
 		\begin{equation*}
 		\mathcal{L}(w) = \sum_{i=1}^n y^{(i)} \bm{\theta}^T \bm{x}^{(i)} - \log ( 1 + \exp(\bm{\theta}^T \bm{x}^{(i)}))
 		\end{equation*}
-		We can use Newton's method to find the optimal $\bm{\theta}$, which uses the following update scheme for $\bm{\theta}$:
+		We can use Newton's method to find the optimal $\bm{\theta}$, which has the following update scheme for $\bm{\theta}$:
 		\begin{equation*}
 		\bm{\theta}_{t+1} \leftarrow \bm{\theta}_t - H^{-1} \nabla_{\bm{\theta}} \mathcal{L}(\bm{\theta})|_{\bm{\theta}_t}
 		\end{equation*}
@@ -117,9 +117,9 @@
 		\begin{equation*}
 		\bm{\theta}_{t+1} = \bm{\theta}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{\mu}), \textrm{ where } \mu_i = \frac{1}{1+\exp(-\bm{\theta}_t^T\bm{x}^{(i)})} \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
 		\end{equation*}
-		where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called Iterative Reweighted Least Sqaures (IRLS).
+		where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called {\em iterative reweighted least sqaures} (IRLS).
 		
-		Please implement IRLS. See details in \textbf{logistic\_regression.py}.
+		Please implement IRLS by completing the code in \textbf{logistic\_regression.py}.
 		
 	\end{questions}
 	
