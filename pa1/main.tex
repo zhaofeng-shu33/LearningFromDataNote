@@ -115,9 +115,9 @@
 		where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
 		The scheme can be written in compact form as:
 		\begin{equation*}
-		\bm{\theta}_{t+1} = \bm{\theta}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{\mu}), \textrm{ where } \mu_i = h_{\bm{\theta}_t}(\bm{x}^{(i)}) \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)
+		\bm{\theta}_{t+1} = \bm{\theta}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{\mu}), \textrm{ where } \mu_i = h_{\bm{\theta}_t}(\bm{x}^{(i)}) \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)\quad\footnote{$R$ is a diagonal matrix}
 		\end{equation*}
-		where $R$ is a diagonal matrix. Using Newton's method to fit the logistic model is also called {\em iterative reweighted least sqaures} (IRLS).
+ 		Using Newton's method to fit the logistic model is also called {\em iterative reweighted least sqaures} (IRLS).
 		
 		Please implement IRLS by completing the code in \textbf{logistic\_regression.py}.
 		
