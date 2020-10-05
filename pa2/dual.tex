@@ -1,0 +1,55 @@
+\documentclass[a4paper, 12pt]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage{advdate}
+\usepackage{datetime}
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{url}
+\begin{document}
+	We provide a simple example to understand Lagrange dual theorem \cite{dual}.
+	This example is also considered in 2.2 of \cite{primal}.
+	Consider the primal problem
+	\begin{align*}
+	\min_{w, u} \, & \lambda w^T w + u^T u \\
+	s.t. \, & u = Xw - y
+	\end{align*}
+	where $\lambda, X, y $ are given.
+	This is Ridge Regression.
+     
+    The Lagrange function can be written as $L(w, u, \alpha) = \lambda w^T w + u^T u  + 2\alpha^T(u - Xw + y)$.
+    For given $\alpha$, we minimize $L(w, u ,\alpha)$ which gives
+    $\min_{w,u}L(w,u,\alpha) = 2\alpha^T y -\frac{1}{\lambda} \alpha^T (XX^T + \lambda I )\alpha$
+    where
+    \begin{align*}
+    w^* & = \frac{X^T\alpha}{\lambda} \\
+    u^* & = -\alpha
+	\end{align*}
+	Therefore, the dual problem is simply
+	\begin{align}\label{eq:alpha}
+	\max_{\alpha}\,  2\alpha^T y -\frac{1}{\lambda} \alpha^T (XX^T + \lambda I )\alpha
+	\end{align}
+	We can solve directly \eqref{eq:alpha} and get
+	\begin{align}
+	\alpha^* & = \lambda (XX^T + \lambda I )^{-1} y \\
+	\max_{\alpha}\,  2\alpha^T y -\frac{1}{\lambda} \alpha^T (XX^T + \lambda I )\alpha
+	& = \lambda y^T (XX^T + \lambda I )^{-1} y
+	\end{align}
+	We can verify two facts using Woodbury matrix identity.
+	\begin{enumerate}
+		\item The optimal $\alpha^*, w^*, u^*$ satisfies the KKT condition, that is
+   		$\nabla L(w, u, \alpha) = 0$ at $(w^*, u^*, \alpha^*)$.		
+		\item The strong duality is achieved, that is
+		$\min_{w, u} \,  \lambda w^T w + u^T u = \max_{\alpha}\,  2\alpha^T y -\frac{1}{\lambda} \alpha^T (XX^T + \lambda I )\alpha$
+	\end{enumerate}
+	%\bibliographystyle{plain}
+	%\bibliography{ref}
+	\begin{thebibliography}{9}
+		\bibitem{dual} https://en.wikipedia.org/wiki/Duality\_(optimization)
+		\bibitem{primal} Chapelle, Olivier. "Training a support vector machine in the primal." Neural computation 19.5 (2007): 1155-1178.
+	%	\bibitem{tutorial} \href{https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net}{Regularization: Ridge, Lasso and Elastic Net}
+	\end{thebibliography}
+\end{document}
