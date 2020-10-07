@@ -6,7 +6,7 @@ not improve your score further.
 
 * Even if you fail all tests, you can still get 4 points. However, when you have not created your project repository, you will get **zero** point.
 
-* For the second problem, the inverse symbol may be misleading. You should use some other methods to avoid singular cases, just like the first problem.
+* For the second problem, the matrix inverse writing style may be misleading. You should use some other methods to avoid singular cases, just like the first problem.
 
 * Do not modify `test.py` in your submission.
 
