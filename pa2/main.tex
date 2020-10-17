@@ -4,6 +4,9 @@
 \usepackage{amssymb}
 \usepackage{enumerate}
 \usepackage{bm}
+\newcommand{\bTheta}{\bm{\Theta}}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+
 \usepackage{advdate}
 \usepackage{datetime}
 \usepackage[mathcal]{eucal}
@@ -140,7 +143,7 @@
 		
 		For multiple variable functions, the idea is the same as above but caution is needed for dimension coherence in matrix multiplication.
 		
-		Please implement Automatic differentiation for rank 2 tensor (matrix) based on coding template. To be more specific, you need to implement
+		Please implement Automatic differentiation for rank 2 tensor (matrix) based on coding template within directory \texttt{lfdnn}. To be more specific, you need to implement
 		the atomic tensor object \texttt{product}, \texttt{scale}, \texttt{sigmoid} and some derived tensor object. We call a tensor object
 		atomic if the method \texttt{eval} and \texttt{diff} should be implemented, while a derived tensor can be treated as composition of
 		atomic tensor object.
@@ -149,24 +152,36 @@
 		them as special rank 2 tensor.
 		
 		\question (5 points) \emph{Multilayer perceptron} You have learned Ridge Regression and softmax regression, which can be treated
-		as special kind of multilayer perceptron. There are no hidden layers on these regression model.
+		as special kind of multilayer perceptron. There are no hidden layers in these regression models and their representational power is limited.
+		To represent more complex input-output relationship, we need to introduce hidden layers. For multi-class classification problems, suppose there are $k$ hidden layers,
+		then the mathematical form of multilayer perceptron is as follows:
+		\begin{align*}
+		h_0 &= x \\
+		h_i &= \sigma(w_i h_{i-1} + b_i), i = 1, \dots, k \\
+		\hat{y} &= \textrm{softmax}(w h_k + b)
+		\end{align*}
+		We use the averaged cross entropy to define the loss function, which can also be found in WA1.2.
+		\begin{align*}
+		\ell(\bTheta)
+		\defeq \sum_{i=1}^{m} \log p(y^{(i)}|\bm{x}^{(i)};\bTheta) = \sum_{i=1}^{m}\sum_{l=1}^{k} \bm{1}\left\{ y^{(i)} = l\right\} \log \frac{e^{\bm{\theta}_l^{\mathrm{T}}\bm{x}^{(i)}}}{\sum_{j=1}^k e^{\bm{\theta}_j^{\mathrm{T}}\bm{x}^{(i)}}}.
+		\end{align*}
 		
+		where $\sigma$ is the activation function and $\hat{y}$ is the probability vector for each class
+		We can use stochastic gradient descent to minimize $\ell(\bTheta)$, which has the following update scheme for $\ell(\bTheta)$:
 		\begin{equation*}
-		l(\theta)= \sum_{i=1}^m y^{(i)} \log h_{\bm{\theta}}(\bm{x}^{(i)}) + (1-y^{(i)})\log(1-h_{\bm{\theta}}(\bm{x}^{(i)})) \textrm{ where } h_{\bm{\theta}}(\bm{x}) = \frac{1}{1+\exp(-\bm{\theta}^T \bm{x})}
+		\ell(\bTheta)_{t+1} \leftarrow \ell(\bTheta)_t - \alpha \nabla_{\bm{\Theta}} \ell(\bTheta)_{\bm{\theta}_t}
 		\end{equation*}
-		We can use Newton's method to find the optimal $\bm{\theta}$, which has the following update scheme for $\bm{\theta}$:
-		\begin{equation*}
-		\bm{\theta}_{t+1} \leftarrow \bm{\theta}_t - H^{-1} \nabla_{\bm{\theta}} \mathcal{L}(\bm{\theta})|_{\bm{\theta}_t}
-		\end{equation*}
-		where $H$ is the Hessian matrix for the likelihood function $\mathcal{L}$.
-		The scheme can be written in compact form as:
-		\begin{equation*}
-		\bm{\theta}_{t+1} = \bm{\theta}_t + (X^TRX)^{-1} X^T(\bm{y}-\bm{\mu}), \textrm{ where } \mu_i = h_{\bm{\theta}_t}(\bm{x}^{(i)}) \textrm{ and } R_{ii} = \mu_i ( 1 - \mu_i)\quad\footnote{$R$ is a diagonal matrix}
-		\end{equation*}
- 		Using Newton's method to fit the logistic model is also called {\em iterative reweighted least sqaures} (IRLS).
+		where $\alpha$ is called the learning rate.
 		
-		Please implement IRLS by completing the code in \textbf{logistic\_regression.py}.
+		To compute the gradient of the loss function, we can use the autodiff library of the first question and all forward and backward propagation details
+		are hidden in the autodiff library.
+
+		Please implement Multilayer perceptron classifier by completing the code in \textbf{model.py}.
+		Besides, use your model to re-implement \texttt{logistic regression} in \textbf{logistic\_regression.py}, which you have already implemented with IRLS in PA1.
 		
+		\question (bonus 2.5 points) \emph{Ridge Regression with autodiff}
+		Please re-implement ridge regression by completing the code in \textbf{ridge\_regression.py}, which you have already implemented with direct solution in PA1.
+		You are required to use SGD with the autodiff library of question 1.
 	\end{questions}
 	
 	
@@ -176,7 +191,7 @@
 		\begin{enumerate}
 			\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
 			\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
-			\item All questions assume that the data are centered around zero. Therefore, you do not need to train the extra bias parameter in your code.
+			\item All questions assume that the data are not centered around zero. Therefore, you need to train the extra bias parameter in your code.
 		\end{enumerate}
 	\end{flushleft}
 	
