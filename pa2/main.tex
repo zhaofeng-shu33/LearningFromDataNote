@@ -14,30 +14,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-	backgroundcolor=\color{backcolour},   
-	commentstyle=\color{codegreen},
-	keywordstyle=\color{magenta},
-	numberstyle=\tiny\color{codegray},
-	stringstyle=\color{codepurple},
-	basicstyle=\ttfamily\footnotesize,
-	breakatwhitespace=false,         
-	breaklines=false,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=5pt,                  
-	showspaces=false,                
-	showstringspaces=false,
-	showtabs=false,                  
-	tabsize=2
-}
-\lstset{style=mystyle}
+\input{code-style.tex}
 \usepackage{url}
 \newdate{issuedate}{23}{10}{2020}
 \newdate{duedate}{6}{11}{2020}
@@ -108,16 +85,16 @@
 	%\vspace{1em}
 	
 	\begin{questions}
-		\question (5 points) \emph{Automatic differentiation} In class, we have learned to build a neural network, we need to implement the forward
+		\question (5 points) \emph{Automatic differentiation} In class, we have learned that to build a neural network, we need to implement the forward
 		and backward propagation of given network model. This underlining mechanism is also called Automatic differentiation, autodiff for short.
 		Following the convention of popular neural network library. We call an object with the ability of autodiff \texttt{tensor}.
 		To explain autodiff operation of tensor, we take a single variable function $f(a) = a^2 + 3a$ for an example. Then the tensor object
 		\texttt{a,p,s,f\_a} are defined as follows:
 		\begin{lstlisting}[language=Python]
-			a = tensor()
-			p = product(a, a)
-			s = scale(a, 3)
-			f_a = add(p, s)
+a = tensor()
+p = product(a, a)
+s = scale(a, 3)
+fa = add(p, s)
 		\end{lstlisting}
 		The forward propagation evaluates the function value $f$ for given $a$ and can be decomposed into the following computational graph.
 		\begin{figure}[!ht]
@@ -127,15 +104,15 @@
 		To implement this forward pass, we only need to implement \texttt{add}, \texttt{product}, \texttt{scale} operators and use the following pseudo Python code
 		to evaluate $f(a)$ at $a=1.2$:
 		\begin{lstlisting}[language=Python]
-		f_a.eval(1.2) = s.eval(1.2) + p.eval(1.2)
-		s.eval(1.2) = 3 * a.eval(1.2)
-		p.eval(1.2) = a.eval(1.2) * a.eval(1.2)
+fa.eval(1.2) = s.eval(1.2) + p.eval(1.2)
+s.eval(1.2) = 3 * a.eval(1.2)
+p.eval(1.2) = a.eval(1.2) * a.eval(1.2)
 		\end{lstlisting}
 		The backward pass of $f(a)$ computes the derivative of $f$ about $a$, also illustrated in the above computational graph.
 		\begin{lstlisting}[language=Python]
-		a.back(f_a) = p.diff(a) * p.back(f_a) + s.diff(a) * s.back(f_a)
-		p.back(f_a) = f_a.diff(p) * f_a.back(f_a)
-		s.back(f_a) = f_a.diff(s) * f_a.back(f_a)
+a.back(fa) = p.diff(a) * p.back(fa) + s.diff(a) * s.back(fa)
+p.back(fa) = fa.diff(p) * fa.back(fa)
+s.back(fa) = fa.diff(s) * fa.back(fa)
 		\end{lstlisting}
 		where \texttt{x.back(x)} is defined as identity as a convention since there is no back operation starting from self.
 		The \texttt{diff} method of each tensor object computes the derivative about the adjacent variable.
@@ -144,9 +121,9 @@
 		For multiple variable functions, the idea is the same as above but caution is needed for dimension coherence in matrix multiplication.
 		
 		Please implement Automatic differentiation for rank 2 tensor (matrix) based on coding template within directory \texttt{lfdnn}. To be more specific, you need to implement
-		the atomic tensor object \texttt{product}, \texttt{scale}, \texttt{sigmoid} and some derived tensor object. We call a tensor object
+		the atomic tensor object \texttt{product}, \texttt{sigmoid} and the derived tensor object \texttt{mse}. We call a tensor object
 		atomic if the method \texttt{eval} and \texttt{diff} should be implemented, while a derived tensor can be treated as composition of
-		atomic tensor object.
+		atomic tensor object. You are only allowed to modify \textbf{lfdnn/operator.py}.
 		
 		Hint: For rank 0 tensor (scalar) or rank 1 tensor (vector), we can treat
 		them as special rank 2 tensor.
@@ -176,8 +153,8 @@
 		To compute the gradient of the loss function, we can use the autodiff library of the first question and all forward and backward propagation details
 		are hidden in the autodiff library.
 
-		Please implement Multilayer perceptron classifier by completing the code in \textbf{model.py}.
-		Besides, use your model to re-implement \texttt{logistic regression} in \textbf{logistic\_regression.py}, which you have already implemented with IRLS in PA1.
+		Please implement multilayer perceptron classifier by completing the code in \textbf{model.py}.
+		Besides, use your MLP model to re-implement \texttt{logistic regression} in \linebreak[4] \textbf{logistic\_regression.py}, which you have already done with IRLS in PA1.
 		
 		\question (bonus 2.5 points) \emph{Ridge Regression with autodiff}
 		Please re-implement ridge regression by completing the code in \textbf{ridge\_regression.py}, which you have already implemented with direct solution in PA1.
