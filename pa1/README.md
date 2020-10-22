@@ -18,3 +18,11 @@ adding an extra **full stop**.
 * If the X mark shows up on your GitHub project root page, please click the X mark to see the error detail.
 
 * Due to some unknown reason, the auto-grading is not enabled in the repository of some students. If this happens, Please click `Actions -- Enable GitHub Actions` by yourself.
+
+## Check plagiarism
+* Download [combocheck](https://github.com/Goldensunboy/combocheck).
+* Download homework using github classroom assistant and download the roster
+(maps student github id to their names)
+* Compile the legacy version (commandline interface), which has two distance metric.
+* Copy the binary to target directly, run `./combocheck` to get `differences.txt`
+* Run `check_same.py` to get the report.
