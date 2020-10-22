@@ -222,6 +222,7 @@ $f(a) = a^2 + 3a$
 	\includegraphics[width=6cm]{auto.eps}
 \end{figure}
 \begin{lstlisting}[language=Python]
+from lfdnn import tensor
 class add(tensor):
     def _eval(self, feed):
         pass
@@ -236,14 +237,14 @@ Implement matrix multiplication \texttt{matmul(A,B)}
 	\item \texttt{A = self.input\_list[0]}
 	\item \texttt{B = self.input\_list[1]}
 \end{itemize}
-\begin{lstlisting}[language=Python,firstnumber=6]
+\begin{lstlisting}[language=Python,numbers=none]
 def _eval(self, feed):
     return A * B
 \end{lstlisting}
 Suppose \texttt{A} $\neq$ \texttt{B}, using chain rule:
 $\frac{\partial f(A \cdot B)}{\partial A} = \nabla_{AB}f \cdot B^{\mathrm{T}}$
 
-\begin{lstlisting}[language=Python,firstnumber=8]
+\begin{lstlisting}[language=Python,numbers=none]
 def _derivative(self, feed, A, target):
     b = self.back(target, feed)
     return b @ B.T
