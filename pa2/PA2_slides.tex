@@ -115,7 +115,7 @@
 \DeclareMathOperator*{\argmin}{arg\!\min}
 \DeclareMathOperator*{\argmax}{\arg\!\max} 
 \input{code-style.tex}
-\title[Learning From Data]{Learning From Data \\ PA2:  Building your own full connected neural network }
+\title[Learning From Data]{Learning From Data \\ Guidance to Programming Assignment 2 }
 
 %\author{Shao-Lun Huang  \quad shaolun.huang@sz.tsinghua.edu.cn  }%\\
  %\smallskip
@@ -239,7 +239,7 @@ Implement matrix multiplication \texttt{matmul(A,B)}
 \end{itemize}
 \begin{lstlisting}[language=Python,numbers=none]
 def _eval(self, feed):
-    return A * B
+    return A @ B
 \end{lstlisting}
 Suppose \texttt{A} $\neq$ \texttt{B}, using chain rule:
 $\frac{\partial f(A \cdot B)}{\partial A} = \nabla_{AB}f \cdot B^{\mathrm{T}}$
