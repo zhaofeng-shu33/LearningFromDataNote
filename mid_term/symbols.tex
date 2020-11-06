@@ -3,9 +3,26 @@
 \newcommand{\by}{\bm{y}}    % y, vec
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}
 
+%%%%%%%%%%%%%%%%%%%%%
+% provide the \score macro
+% attribute to https://lvjr.bitbucket.io/jnuexam.html
+% math institute, junan university 
+% Jianrui, Li
+\PassOptionsToPackage{tbtags}{amsmath}
+\newcommand{\myscore}[1]{#1\kern0.15em points}
 
+\newcommand{\scoretext}[1]{\mbox{}\nobreak\hfill$\cdots\cdots$\myscore{#1}\par\noindent\ignorespaces}
+\newcommand{\scoreeqno}[1]{\eqno{\cdots\cdots\text{\myscore{#1}}}}
+\newcommand{\scoretag}[1]{\tag*{$\cdots\cdots$\myscore{#1}}}
 
-
+\newrobustcmd{\score}[1]{%
+  \ifbool{mmode}{%
+    \ifdefstrequal{\tag}{\dft@tag}{\scoreeqno{#1}}{\scoretag{#1}}%
+  }{%
+    \scoretext{#1}%
+  }%
+}
+%%%%%%%%%%%%%%%%%%%%
 \newcommand{\ut}{\underline{t}}    % t, vec
 
 \newcommand{\bA}{\bm{A}}    % A, mat

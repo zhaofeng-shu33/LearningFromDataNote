@@ -173,28 +173,28 @@ Total score: 100+10 credit
 \end{parts}
 \begin{solution}
 The loss function be written down as 
-\begin{equation*}
-\begin{aligned}
+\begin{align*}
 J(\bTheta) &= \frac{1}{2} \sum_{j=1}^{l} \sum_{i=1}^{m} \bW_{jj}(\bX\bTheta-\bY)^2_{ij} \\
-&= \frac12 \tr\left((\bX\bTheta-\bY)^\T(\bX\bTheta-\bY)\bW\right) ....8)
-\end{aligned}
-\end{equation*}
+&= \frac12 \tr\left((\bX\bTheta-\bY)^\T(\bX\bTheta-\bY)\bW\right) \score{8}
+\end{align*}
+% if the Trace operation is forgotten, losing one point
 Then do the derivative
-\begin{equation*}
-\begin{aligned}
+\begin{align*}
 \nabla_{\bTheta}J(\bTheta)&=\frac12 \nabla_{\bTheta}\left[\tr\left(\bTheta^\T\bX^\T\bX\bTheta\bW\right)-\tr\left(\bTheta^\T\bX^\T\bY\bW\right)-\tr\left(\bY^\T\bX\bTheta\bW\right)\right]\\
 % see matrix cookbook,
 % how to take derivatives about trace function
  &=\frac12 \left[2\bX^\T\bX\bTheta\bW-2\bX^\T\bY\bW\right]\\
-&=(\bX^\T\bX\bTheta-\bX^\T\bY)\bW ....13)
-\end{aligned}
-\end{equation*}
+&=(\bX^\T\bX\bTheta-\bX^\T\bY)\bW \score{13}
+\end{align*}
 Let $\nabla_{\bTheta}J(\bTheta) = 0$, the solution is
 \begin{equation*}
-\bTheta=\left(\bX^\T\bX\right)^{-1}\bX^\T\bY
+\bTheta=\left(\bX^\T\bX\right)^{-1}\bX^\T\bY \score{15}
 \end{equation*}
-% component-wise points 5
-% simplification 
+% some students get the result $\bTheta=\left(\bw\bX^\T\bX\right)^{-1}\bw\bX^\T\bY \score{15}$
+% The extra $\bW$ can be cancelled out. In such case, he will lose one point.
+% For component-wise solution, if the students can write down the derivatives, points 5
+% simplification, point 10
+% write in compact matrix form, point 15
 \end{solution}
 
   \question(SVM)
