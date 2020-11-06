@@ -139,22 +139,22 @@ Total score: 100+10 credit
 & = \sum_{i=1}^m \log f(\bx^{(i)}, y^{(i)}) ....2) \\
 & = \sum_{i=1}^m \left(-\frac{|y^{(i)}-\btheta^{\top}\bx^{(i)}-\mu|}{\tau} - \log (2\tau) \right)\\
 & = - m \log (2\tau) -\frac{1}{\tau}\sum_{i=1}^m
-|y^{(i)} - \btheta^{\top}\bx^{(i)}- \mu| ....5)
+|y^{(i)} - \btheta^{\top}\bx^{(i)}- \mu| \score{5}
  \end{align*}
  \item The maximum likelihood estimator of 
  $\btheta$ is the optimal solution to the
  following optimization problem:
- $$
+\begin{align*}
  \min_{\theta_1, \theta_2} | \theta_1 + \theta_2 - 1 |
- + | \theta_1 + 2\theta_2 + 1 | ....3)
- $$
+ + | \theta_1 + 2\theta_2 + 1 | \score{3}
+\end{align*}
  \end{enumerate}
  in which we let
  \begin{align*}
      \theta_1 + \theta_2 - 1 & = 0 \\
-     \theta_1 + 2\theta_2 + 1 & = 0 ....4)
+     \theta_1 + 2\theta_2 + 1 & = 0 \score{4}
  \end{align*}
- and we have $\btheta = (3, -2)$ ....5)
+ and we have $\btheta = (3, -2)$ \score{5}
  \end{solution}
  \part[15](Least Square)
  Given data  $(\bx^{(1)}, \by^{(1)}), \dots, (\bx^{(m)}, \by^{(m)})$, where $\bx^{(i)} \in \mathbb{R}^n$ represents the input features, and $\by^{(i)} \in \mathbb{R}^l$ is the output (label). 
@@ -216,29 +216,29 @@ Let $\nabla_{\bTheta}J(\bTheta) = 0$, the solution is
           \max_{\alpha_1, \alpha_2}
           \,& \alpha_1 + \alpha_2 - \frac{1}{2}
           (2\alpha_1^2+2\alpha_2^2 + 4 \alpha_1 \alpha_2) \\
-          s.t. \,& \alpha_1, \alpha_2 \geq 0, \alpha_1 - \alpha_2 = 0
+          s.t. \,& \alpha_1, \alpha_2 \geq 0, \alpha_1 - \alpha_2 = 0 \score{5}
       \end{align*}
-      We get $\alpha_1 = \alpha_2 = \frac{1}{4}$.
+      We get $\alpha_1 = \alpha_2 = \frac{1}{4}$. \score{7}
       The optimal $\bw^*,b^*$ are
       \begin{align*}
-          \bw^* & = (\alpha_1 + \alpha_2)(1,1)^\T = (\frac{1}{2},\frac{1}{2})^\T \\
-        b^* & = -\frac{1}{2}(\bw^\T(-1,-1)^\T - \bw^\T(1,1)^\T) = 0          
+          \bw^* & = (\alpha_1 + \alpha_2)(1,1)^\T = (\frac{1}{2},\frac{1}{2})^\T \score{8}\\
+        b^* & = -\frac{1}{2}(\bw^\T(-1,-1)^\T - \bw^\T(1,1)^\T) = 0          \score{9}
       \end{align*}
       The support vectors are $\bx^{(1)}$ and
-      $\bx^{(2)}$.
+      $\bx^{(2)}$. \score{10}
       % plotting 6 points
       % results 4 points
       \item Using geometric method, we could get
       \begin{enumerate}[label=(\arabic*)]
           \item When $t < -1$, the support vector is $\bx^{(1)}$
           and $\bx^{(2)}$, with $\bw^* = (\frac{1}{2}, \frac{1}{2})^\T$
-          and $b^* = 0$.
+          and $b^* = 0$. \score{3}
           \item When $ -1 < t < 1$, the support vector is $\bx^{(1)}$
           and $\bx^{(3)}$, with $\bw^* = (\frac{2-2t}{t^2-2t+5}, \frac{4}{t^2-2t+5})^\T$
-          and $b^* = \frac{t^2-1}{t^2-2t+5}$.
+          and $b^* = \frac{t^2-1}{t^2-2t+5}$. \score{7}
           \item When $ t \geq 1 $, the support vector is $\bx^{(1)}$, $\bx^{(2)}$
           and $\bx^{(3)}$, with $\bw^* = (0,1)^\T$
-          and $b^* = 0 $.
+          and $b^* = 0 $. \score{10}
       \end{enumerate}
       % 3 categories, 5 points
       % results, 10 points
@@ -257,12 +257,12 @@ Let $\nabla_{\bTheta}J(\bTheta) = 0$, the solution is
   the optimal margin interpretation of
   SVM, we have
   \begin{align*}
-      (\bw^*)^\T \bx^{(i)} + b &\geq 1 \\
-      -((\bw^*)^\T \bx^{(j)} + b) & \geq 1
+      (\bw^*)^\T \bx^{(i)} + b &\geq 1 \score{1}\\
+      -((\bw^*)^\T \bx^{(j)} + b) & \geq 1\score{2}
   \end{align*}
   Summing up the above two equations we have
   \begin{equation*}
-      (\bw^*)^\T (\bx^{(i)}-\bx^{(j)}) \geq 2
+      (\bw^*)^\T (\bx^{(i)}-\bx^{(j)}) \geq 2 \score{3}
   \end{equation*}
   Similarly, when $y^{(i)}=-1, y^{(j)}=1$
   we have $-(\bw^*)^\T (\bx^{(i)}-\bx^{(j)}) \geq 2$.
@@ -272,7 +272,9 @@ Let $\nabla_{\bTheta}J(\bTheta) = 0$, the solution is
   \end{equation*}
   
   Using Cauchy's inequality we have
-  $||\bw^*|| \cdot ||\bx^{(i)}-\bx^{(j)}|| \geq |(\bw^*)^\T (\bx^{(i)}-\bx^{(j)})| \geq 2$
+	\begin{align*}  
+  ||\bw^*|| \cdot ||\bx^{(i)}-\bx^{(j)}|| \geq |(\bw^*)^\T (\bx^{(i)}-\bx^{(j)})| \geq 2\score{5}
+  \end{align*}
   Therefore, 
     \begin{align*}
       ||\bw^*|| \geq \max_{(i,j):y^{(i)}\neq y^{(j)}} \frac{2}{||\bx^{(i)}-\bx^{(j)}||}.
@@ -317,8 +319,8 @@ define
 \end{cases}
 \end{align*}
 Since $\sum_{i=1}^m \alpha_i y^{(i)} = 0$,
-we have also $\alpha = \sum_{i\in [m]_-} \alpha_i$. Therefore,
-$\sum_{i=1}^m \theta_i = \sum_{i=1}^m \theta'_i = 1$
+we also have $\alpha = \sum_{i\in [m]_-} \alpha_i$. Therefore,
+$\sum_{i=1}^m \theta_i = \sum_{i=1}^m \theta'_i = 1$.
 Let $\bu^* = \sum_{i=1}^m \theta_i \bx^{(i)}$
 and $\bv^*= \sum_{i=1}^m \theta'_i \bx^{(i)}$.
 From the definition of $C_1, C_2$, we have
@@ -326,7 +328,7 @@ $\bu^* \in C_1, \bv^* \in C_2$. Then from
 (\ref{eq:wxb}, \ref{eq:wxb2}) we have
 \begin{align*}
               (\bw^*)^\T \bu^* + b &= 1\\
-      -((\bw^*)^\T \bv^* + b) &= 1 
+      -((\bw^*)^\T \bv^* + b) &= 1  \score{3}
 \end{align*}
 That is
 \begin{equation}\label{eq:bwuv}
@@ -337,22 +339,23 @@ From the expression $\bw^* = \sum_{i=1}^m \alpha_i y^{(i)} \bx^{(i)}$ we have
     \frac{\bw^*}{\alpha} = \sum_{i \in [m]_+}
     \theta_i \bx^{(i)} - \sum_{i \in [m]_-}
     \theta'_i \bx^{(i)}
-    = \bu^* - \bv ^*
+    = \bu^* - \bv ^* 
 \end{equation}
 From \eqref{eq:bwuv} and \eqref{eq:wuv} we have
-$||\bw^*||^2 = 2 \alpha  = \frac{2}{||\bu^* - \bv^*||}$.
+$||\bw^*|| = \frac{2}{||\bu^* - \bv^*||}$. \score{5}
 Similar to the proof of b), first we have
   \begin{align*}
       (\bw^*)^\T \bx^{(i)} + b &\geq 1, \textrm{ for } i \textrm{ satisfying } y^{(i)} = 1 \\
-      -((\bw^*)^\T \bx^{(j)} + b) & \geq 1, \textrm{ for } i \textrm{ satisfying } y^{(i)} = -1
+      -((\bw^*)^\T \bx^{(j)} + b) & \geq 1, \textrm{ for } i \textrm{ satisfying } y^{(i)} = -1 \score{7}
   \end{align*}
   Therefore,
     \begin{align*}
       (\bw^*)^\T \bu + b &\geq 1, \textrm{ for } \bu \in C_1\\
-      -((\bw^*)^\T \bv + b) & \geq 1, \textrm{ for } \bv \in C_2
+      -((\bw^*)^\T \bv + b) & \geq 1, \textrm{ for } \bv \in C_2  \score{9}
   \end{align*}
   Then by Cauchy's equality, 
-  $|| \bw^* || \cdot ||\bu - \bv || \geq || (\bw^*)^\T (\bu - \bv)|| \geq 2$. Thus we have shown that
+  $|| \bw^* || \cdot ||\bu - \bv || \geq || (\bw^*)^\T (\bu - \bv)|| \geq 2$.\score{10}
+  Thus we have shown that
     \begin{equation*}
     \|\bw^\star\| = \max_{\bu \in C_1, \bv \in C_2}\frac{2}{\|\bu - \bv\|}.
   \end{equation*}
