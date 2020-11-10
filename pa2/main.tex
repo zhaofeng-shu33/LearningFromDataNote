@@ -159,6 +159,22 @@ s.back(fa) = fa.diff(s) * fa.back(fa)
 		\question (bonus 2.5 points) \emph{Ridge Regression with autodiff}
 		Please re-implement ridge regression by completing the code in \textbf{ridge\_regression.py}, which you have already implemented with direct solution in PA1.
 		You are required to use SGD with the autodiff library of question 1.
+
+		\question (extra) \emph{Soft Margin SVM}
+		Recall that soft margin SVM is solving
+		the following optimization problem:
+		\begin{align*}
+		    \min_{w,b,\xi}& \frac{1}{2}||w||^2 + C \sum_{i=1}^m \xi_i \\
+		    s.t.\, &y^{(i)} (w^T x^{(i)} + b) \geq 1 -\xi_i \\
+		    &\xi_i \geq 0, i=1,\dots, m
+		\end{align*}
+		which can be transformed to an unconstrained
+		optimization.
+		\begin{equation*}
+		    \min_{w, b} \frac{1}{2}||w||^2  + C\sum_{i=1}^m \max\{0, 1 - y^{(i)} (w^T x^{(i)} + b) \}
+		\end{equation*}
+		We can use SGD to get an approximate minimizer for the above problem.
+		Please use \texttt{lfdnn} to implement soft margin SVM by completing the code in \textbf{svm.py}.		
 	\end{questions}
 	
 	
