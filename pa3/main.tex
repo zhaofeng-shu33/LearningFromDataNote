@@ -1,0 +1,127 @@
+\documentclass[a4paper, 12pt]{exam}
+\usepackage[T1]{fontenc} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{bm}
+\newcommand{\bTheta}{\bm{\Theta}}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+
+\usepackage{advdate}
+\usepackage{datetime}
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{url}
+\newdate{issuedate}{20}{11}{2020}
+\newdate{duedate}{04}{12}{2020}
+
+% \newcommand{\duedate}[1][14]{%
+% \begingroup
+% \AdvanceDate[#1]%
+% \today%
+% \endgroup
+% }%
+
+\usepackage[thehwcnt=3]{iidef}
+\thecourseinstitute{Tsinghua-Berkeley Shenzhen Institute}
+\thecoursename{Learning From Data}
+\theterm{Fall 2020}
+\makeatletter
+\newcommand{\firstblock}{programming_policies}
+\makeatother
+
+\begin{document}
+	
+	\pagestyle{headandfoot}
+	\runningheadrule
+	
+	
+	\newcounter{psctr}
+	\setcounter{psctr}{3} % set to the times of problem
+	
+	\runningheader{Programming Assignment \thepsctr}
+	{\textsc{Learning from Data}}
+	{ Page \thepage\ of \numpages}
+	\firstpagefooter{}{}{}
+	\runningfooter{}{}{}
+	
+	
+	\newcounter{Sequ}
+	\newenvironment{Sequation}
+	{\stepcounter{Sequ}%
+		\addtocounter{equation}{-1}%
+		\renewcommand\theequation{S\arabic{Sequ}}\equation}
+	{\endequation}
+	%\topskip0pt
+	
+	% \vspace*{\fill}
+	\centering
+	
+	% \vspace{0.3em}
+	\centering
+	\renewcommand{\thequestion}{\arabic{psctr}.\arabic{question}}
+	\hwname{Programming Assignment}
+	\courseheader
+	\begin{flushleft}
+		\textbf{Issued:} \displaydate{issuedate} \hfill
+		\textbf{Due:} \displaydate{duedate} 
+	\end{flushleft}
+	
+	\hrule 
+	
+	\input{\firstblock}
+	
+	%\pointname{}
+	%\vspace{\footskip}
+	\vspace{1em}
+	
+	
+	%\pointname{}
+	%\vspace{\footskip}
+	%\vspace{1em}
+	
+	\begin{questions}
+
+		\question (2 points) \emph{kmeans}
+		Recall that kmeans is solving the following optimization
+		problem:
+		\begin{align*}
+		    \min_{C, \mu} \sum_{j=1}^k \sum_{x \in C_j}
+		    || x - \mu_j ||^2
+		\end{align*}
+		Exact solution of the above problem is NP-hard. We proceed
+		by an iterative scheme instead. The iterative algorithm
+		first initializing the cluster centroids $\mu_1, \dots, \mu_k$. We can choose $k$ different points from $x_1, \dots, x_n$ as the random initialization.
+		Then the algorithm iterates between updating the centroids
+		(E step) and assigning labels (M step).
+		Please use such algorithm to implement kmeans by completing the code in \textbf{kmeans.py}.
+		
+		\question (3 points) \emph{spectral clustering}
+		In this question, we consider unnormalized spectral clustering, which deals with the unnormalized Laplacian matrix of a graph, $L= D - W$. After making dimension reduction from $L$ by choosing its first $k$ eigenvectors
+		(corresponding to $k$ smallest eigenvalues), we make clustering
+		in the reduced feature space by k-means, which you have already implemented in the previous question. In this question, 
+		please implement spectral clustering by completing the code in \textbf{spectral\_clustering.py}.
+		
+	\end{questions}
+	
+	
+	\nocite{*}
+	\begin{flushleft}
+		\textbf{Notice}: \\
+		\begin{enumerate}
+			\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
+			\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
+			\item All questions assume that the data are not centered around zero. Therefore, you need to consider the bias parameter in your code.
+		\end{enumerate}
+	\end{flushleft}
+	
+	%\bibliographystyle{plain}
+	%\bibliography{ref}
+	%\begin{thebibliography}{9}
+	%	\bibitem{ridge} \href{https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Ridge_Regression.pdf}{Ridge Regression}
+	%	\bibitem{tutorial} \href{https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net}{Regularization: Ridge, Lasso and Elastic Net}
+	%\end{thebibliography}
+\end{document}
