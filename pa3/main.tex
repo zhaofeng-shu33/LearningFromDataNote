@@ -14,9 +14,12 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx,algorithm}
+%\input{code-style.tex}
 \usepackage{url}
-\newdate{issuedate}{20}{11}{2020}
-\newdate{duedate}{04}{12}{2020}
+\newdate{issuedate}{22}{11}{2020}
+\newdate{duedate}{06}{12}{2020}
 
 % \newcommand{\duedate}[1][14]{%
 % \begingroup
@@ -85,7 +88,7 @@
 	
 	\begin{questions}
 
-		\question (2 points) \emph{kmeans}
+		\question  (\emph{kmeans})
 		Recall that kmeans is solving the following optimization
 		problem:
 		\begin{align*}
@@ -94,27 +97,124 @@
 		\end{align*}
 		Exact solution of the above problem is NP-hard. We proceed
 		by an iterative scheme instead. The iterative algorithm
-		first initializing the cluster centroids $\mu_1, \dots, \mu_k$. We can choose $k$ different points from $x_1, \dots, x_n$ as the random initialization.
+		first initializing the cluster centroids $\mu_1, \dots, \mu_k$. We can choose $k$ different points from $x_1, \dots, x_m$ as the random initialization.
 		Then the algorithm iterates between updating the centroids
 		(E step) and assigning labels (M step).
-		Please use such algorithm to implement kmeans by completing the code in \textbf{kmeans.py}.
+		\begin{parts}
+		\part[2]
+		Please use such algorithm to implement kmeans by completing the code in \textbf{kmeans.py}. Your implementation should follow Algorithm \ref{alg2}.
+\begin{algorithm}[H] 
+\caption{K-Means Clustering\label{alg2}} %算法的名字
+\hspace*{0.02in} {\bf Input:} %算法的输入
+data points $x^{(1)}, \dots, x^{(m)}$ and cluster size $k$
+
+\hspace*{0.02in}
+{\bf Output: } clustering label vector $y$
+\begin{algorithmic}[1]
+\State Initialize cluster centroids $\mu_1, \dots, \mu_k \in \mathbb{R}^n$ randomly
+\While{not convergent}
+\For{$i = 1, \dots, n$}
+\State $y_i = \arg\min_j || x^{(i)} - \mu_j||^2$
+\EndFor
+\For{$j = 1, \dots, k$}
+\State $\mu_j = \frac{\sum_{i=1}^m \mathbf{1}\{y_i = j\} x^{(i)}}{\sum_{i=1}^m \mathbf{1}\{y_i = j\} }$
+\EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}			
+		\part[2] kmeans can be regarded as a special Gaussian mixture model with known uniform variance. If
+		the dataset does not follow this assumption, the clustering result may behave poorly and contrary to the
+		expectation. In this question, you are required to apply kmeans clustering to an artificial dataset
+		with two eclipse contour and present the clustering result in the form of figure. Besides, you should write down
+		some analysis in \texttt{README.md} to explain why the
+		unexpected clustering result happens. For the experiment code, please
+		see \textbf{kmeans-experiment.py} for detail of artificial data generation and result visualization. 
+		\end{parts}
 		
-		\question (3 points) \emph{spectral clustering}
-		In this question, we consider unnormalized spectral clustering, which deals with the unnormalized Laplacian matrix of a graph, $L= D - W$. After making dimension reduction from $L$ by choosing its first $k$ eigenvectors
+		\question (\emph{spectral clustering with rbf kernel})
+		In this question, we consider unnormalized spectral clustering, which deals with the unnormalized Laplacian matrix of a graph, $L= D - W$. 
+		The weighted matrix $W$ is constructed using rbf-kernel,
+		\begin{equation}\label{eq:W}
+		    W_{ij} = \exp(- \gamma || x^{(i)} - x^{(j)} ||^2)
+		\end{equation}
+		while the diagonal matrix $D$ is obtained by summing each row of $W$.
+		After making dimension reduction from $L$ by choosing its first $k$ eigenvectors $V$
 		(corresponding to $k$ smallest eigenvalues), we make clustering
-		in the reduced feature space by k-means, which you have already implemented in the previous question. In this question, 
-		please implement spectral clustering by completing the code in \textbf{spectral\_clustering.py}.
-		
+		in the reduced feature space by k-means, which you have already implemented in the previous question.
+		\begin{parts}
+		\part[4] 
+		Please implement spectral clustering by completing the code in \textbf{spectral\_clustering.py}. Your implementation should follow Algorithm \ref{alg1}.
+\begin{algorithm}[H] 
+\caption{Spectral Clustering\label{alg1}} %算法的名字
+\hspace*{0.02in} {\bf Input:} %算法的输入
+data points $x^{(1)}, \dots, x^{(n)}$ and cluster size $k$
+
+\hspace*{0.02in}
+{\bf Output: } clustering label vector $y$
+\begin{algorithmic}[1]
+\State Build the similarity matrix $W$ by \eqref{eq:W}
+\State Construct unnormalized Laplacian matrix $L$
+\State Compute first $k$ eigenvectors $V=[v_1, \dots, v_k]$ of $L$
+\State Define $u_i \in \mathbb{R}^k$ as the $i$-th row of $V$,
+cluster $u_1, \dots, u_n$ into $k$ clusters using k-means and obtain
+the cluster label $y_1, \dots, y_n$
+\end{algorithmic}
+\end{algorithm}		
+		\part[2]
+		The performance of spectral clustering is influenced by the scaling parameter $\gamma$. In this question, we use grid search to get optimal $\gamma$. We assume the ground truth label is known in
+		advance and use \textsf{adjusted rank index} to evaluate the clustering
+		performance for different $\gamma$. \textsf{adjusted rank index}
+		is a similarity metric of two label vectors, which gives the highest score 1 if the two underlining clusters are exactly the same.
+		Please use this method to tune the parameter $\gamma$ for the given
+		three circle dataset. You should report your optimal $\gamma$ and plot the clustering result for this $\gamma$. Besides, write down your analysis in \texttt{README.md} why $\gamma$ in the range you choose
+		can produce the desirable result. For the experiment code, please
+		see \textbf{spectral-experiment.py} for detail of artificial data generation and result visualization. 
+% Please use unnormalized Laplacian for this purpose		    
+		\end{parts}
+		\question (bonus, 2.5 points)
+	    (\emph{spectral clustering with normalized Laplacian})
+	    In this question, you are required to implement spectral clustering with
+	    normalized Laplacian.
+	    Following the convention of \texttt{scipy}, given the weight matrix $W$, the normalized Laplacian is defined mathematically as:
+	    \begin{align}
+	        W' &= W - \textrm{diag}\{W\} \notag \\
+	        D &= \textrm{diag}\{d_1, \dots, d_n\} \textrm{ where } d_i = \sum_{j=1}^n W'_{ij} \notag\\
+	        L &= I - D^{-1} W'\label{eq:L}
+	    \end{align}
+	    Please extend your
+	    existing implementation in the class function \texttt{\_get\_embedding} of \textbf{spectral\_clustering.py} to support normalized Laplacian. Your implementation should follow Algorithm \ref{alg3}.
+\begin{algorithm}
+\caption{Normalized Spectral Clustering\label{alg3}} %算法的名字
+\hspace*{0.02in} {\bf Input:} %算法的输入
+data points $x^{(1)}, \dots, x^{(n)}$ and cluster size $k$
+
+\hspace*{0.02in}
+{\bf Output: } clustering label vector $y$
+\begin{algorithmic}[1]
+\State Build the similarity matrix $W$ by \eqref{eq:W}
+\State Construct normalized Laplacian $L$ from \eqref{eq:L}
+\State Compute first $k$ eigenvectors $V=[v_1, \dots, v_k]$ of $L$
+\State Define $u_i \in \mathbb{R}^k$ as the $i$-th row of $V$,
+cluster $u_1, \dots, u_n$ into $k$ clusters using k-means and obtain
+the cluster label $y_1, \dots, y_n$
+\end{algorithmic}
+\end{algorithm}	
 	\end{questions}
 	
-	
+
 	\nocite{*}
 	\begin{flushleft}
 		\textbf{Notice}: \\
-		\begin{enumerate}
+		\begin{enumerate}[label=\roman*)]
 			\item Use matrix operations other than loops for efficiency. If the running time of Auto-Grading steps exceeds 5 minutes, you will get point deductions.
-			\item You are expected to only use \texttt{numpy} packages to implement the algorithms.
-			\item All questions assume that the data are not centered around zero. Therefore, you need to consider the bias parameter in your code.
+			\item For algorithm implementation questions, You can \textbf{only} use \texttt{numpy}.
+			Using any API of \texttt{scipy} and \texttt{sklearn}
+			will lead to point deductions. However,
+			for analysis question you are allowed to use any other third-party packages.
+			\item For analysis problem, please write down your
+			answers in \texttt{README.md}. You can follow \texttt{report-template.md} and click \textbf{Preview changes} on GitHub webpage to view the rendered contents after modification.
+			In rare cases when you could not get familiar with the specific syntax
+			of markdown, you could upload a \texttt{.docx} or \texttt{pdf} file to the root directory of your GitHub repository and declare where your answers are written in \texttt{README.md}.
 		\end{enumerate}
 	\end{flushleft}
 	
