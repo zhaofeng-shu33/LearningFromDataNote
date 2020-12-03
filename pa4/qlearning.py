@@ -70,3 +70,7 @@ class QTableLearning:
                 eps = - 0.99 * i / max_iter + 1.0
                 eps = np.maximum(0.1, eps)
                 self.agent.eps = eps
+
+    def predict(self, state):
+        # given the current state, select the best action
+        pass
