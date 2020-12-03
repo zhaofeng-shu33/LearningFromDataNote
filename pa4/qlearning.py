@@ -50,15 +50,15 @@ class QTableLearning:
     def train(self):
         for i in range(self.max_iter):
             current_state = self.env.reset()
-            current_state_tuple = tuple(np.asarray(current_state, dtype=int))
+            current_state_tuple = tuple(current_state)
             while True:
                 # act
                 action = self.select_action(current_state_tuple)
 
                 # get reward from the environment
-                next_state, reward, done, _ = self.env.step(action)
+                next_state, reward, done = self.env.step(action)
 
-                next_state_tuple = tuple(np.asarray(next_state, dtype=int))
+                next_state_tuple = tuple(next_state)
                 # learn from the reward
                 self.learn(current_state_tuple, action, reward, next_state_tuple)
 
