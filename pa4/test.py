@@ -11,3 +11,7 @@ class TestMaze(unittest.TestCase):
         env = gym.make("maze-sample-3x3-v0")
         alg = QTableLearning(env)
         alg.train()
+
+
+if __name__ == '__main__':
+    unittest.main()

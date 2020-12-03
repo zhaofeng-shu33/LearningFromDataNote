@@ -10,7 +10,7 @@ class QTableLearning:
         self.gamma = gamma
         self.alpha = alpha
         self.eps = eps
-        self.max_iter = self.max_iter
+        self.max_iter = max_iter
         # number of action space
         num_of_actions = self.env.action_space.n
         # number of state
@@ -56,7 +56,7 @@ class QTableLearning:
                 action = self.select_action(current_state)
 
                 # get reward from the environment
-                next_state, reward, done = self.env.step(action, current_state)
+                next_state, reward, done, _ = self.env.step(action)
 
                 # learn from the reward
                 self.learn(current_state, action, reward, next_state)
@@ -73,4 +73,4 @@ class QTableLearning:
 
     def predict(self, state):
         # given the current state, select the best action
-        pass
+        return select_action(state)
