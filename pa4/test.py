@@ -42,5 +42,19 @@ class TestMaze(unittest.TestCase):
             done_cnt += 1
         self.assertTrue(done_cnt < 10)
 
+    def test_4x4_maze_q_table_learning(self):
+        env = MazeEnvSpecial4x4()
+        alg = QTableLearning(env)
+        alg.train()
+        done_cnt = 0
+        current_state = env.reset()
+        while True:
+            action = alg.predict(current_state)
+            current_state, reward, done = env.step(action)
+            if done:
+                break
+            done_cnt += 1
+        self.assertTrue(done_cnt < 10)
+
 if __name__ == '__main__':
     unittest.main()
