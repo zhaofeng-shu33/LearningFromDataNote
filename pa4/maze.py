@@ -73,3 +73,12 @@ class MazeEnvSample3x3(MazeEnv):
         reward_matrix = np.zeros([3, 3], dtype=int)
         reward_matrix[2, 2] = 1
         super(MazeEnvSample3x3, self).__init__(reward_matrix)
+
+class MazeEnvSpecial4x4(MazeEnv):
+    def __init__(self):
+        reward_matrix = np.zeros([4, 4], dtype=int)
+        reward_matrix[3, 3] = 4
+        reward_matrix[1, 1] = -5 # block which could not be reached
+        reward_matrix[1, 3] = -5
+        reward_matrix[3, 1] = -5
+        super(MazeEnvSpecial4x4, self).__init__(reward_matrix)

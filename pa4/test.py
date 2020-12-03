@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from maze import MazeEnvSample3x3
+from maze import MazeEnvSample3x3, MazeEnvSpecial4x4
 
 from qlearning import QTableLearning
 
@@ -20,6 +20,13 @@ class TestMaze(unittest.TestCase):
         self.assertTrue(reward > 0)
         env.reset()
         self.assertEqual(env.state, [0, 0])
+
+    def test_4x4_maze(self):
+        env = MazeEnvSpecial4x4()
+        env.step(1) # right
+        current_state, reward, done = env.step(3)
+        self.assertTrue(reward < 0)
+        self.assertTrue(done)
 
     def test_3x3_maze_q_table_learning(self):
         env = MazeEnvSample3x3()
