@@ -74,4 +74,5 @@ class QTableLearning:
 
     def predict(self, state):
         # given the current state, select the best action
-        return select_action(state)
+        state_tuple = tuple(np.asarray(state, dtype=int))
+        return self.select_action(state_tuple)
