@@ -42,11 +42,10 @@ class QTableLearning:
         """
 
         # update Q table with Q-Table Learning
-        current_q = self.Q[state][action]
+        current_q = self.q_table[state][action]
 
         # set feasible action space
-        action_space = self.set_action_space(state)
-        self.Q[state][action] = current_q + self.alpha * (reward + self.gamma * max(self.Q[next_state][action_space]) - current_q)
+        self.q_table[state][action] = current_q + self.alpha * (reward + self.gamma * max(self.q_table[next_state]) - current_q)
         return
   
     def train(self):
