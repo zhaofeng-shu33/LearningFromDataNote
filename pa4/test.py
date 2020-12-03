@@ -30,11 +30,10 @@ class TestMaze(unittest.TestCase):
         while True:
             action = alg.predict(current_state)
             current_state, reward, done = env.step(action)
-            print(current_state)
             if done:
                 break
             done_cnt += 1
-        print(done_cnt)
+        self.assertTrue(done_cnt < 10)
 
 if __name__ == '__main__':
     unittest.main()
