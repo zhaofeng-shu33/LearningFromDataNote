@@ -25,7 +25,7 @@ class QTableLearning:
             action = self.env.action_space.sample()
         else:
             # select from Q table
-            action = np.argmax(self.q_table[state])
+            action = int(np.argmax(self.q_table[state]))
 
         return action
 
@@ -40,7 +40,6 @@ class QTableLearning:
         Outputs:
             None
         """
-
         # update Q table with Q-Table Learning
         current_q = self.q_table[state][action]
 
@@ -51,25 +50,27 @@ class QTableLearning:
     def train(self):
         for i in range(self.max_iter):
             current_state = self.env.reset()
+            current_state_tuple = tuple(np.asarray(current_state, dtype=int))
             while True:
                 # act
-                action = self.select_action(current_state)
+                action = self.select_action(current_state_tuple)
 
                 # get reward from the environment
                 next_state, reward, done, _ = self.env.step(action)
 
+                next_state_tuple = tuple(np.asarray(next_state, dtype=int))
                 # learn from the reward
-                self.learn(current_state, action, reward, next_state)
+                self.learn(current_state_tuple, action, reward, next_state_tuple)
 
-                current_state = next_state
+                current_state_tuple = next_state_tuple
                 if done:
                     break
             # epsilon decay
-            eps = self.agent.eps
+            eps = self.eps
             if i % 100 == 0 and i > 0:
-                eps = - 0.99 * i / max_iter + 1.0
+                eps = - 0.99 * i / self.max_iter + 1.0
                 eps = np.maximum(0.1, eps)
-                self.agent.eps = eps
+                self.eps = eps
 
     def predict(self, state):
         # given the current state, select the best action
