@@ -63,6 +63,16 @@ class TestCartpole(unittest.TestCase):
         env = gym.make('CartPole-v0')
         alg = CELearning(env)
         alg.train()
+        done_cnt = 0
+        current_state = env.reset()
+        while True:
+            action = alg.predict(current_state)
+            # action = env.action_space.sample()
+            current_state, reward, done, _ = env.step(action)
+            if done or done_cnt == 1000:
+                break
+            done_cnt += 1
+        self.assertTrue(done_cnt > 25)
 
 if __name__ == '__main__':
     unittest.main()

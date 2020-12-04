@@ -51,6 +51,6 @@ class CELearning:
 
     def predict(self, state):
         # given the current state, select the best action
-        return self.select_action(state_tuple, self.theta)
+        return self.select_action(state, self.theta)
 
 
