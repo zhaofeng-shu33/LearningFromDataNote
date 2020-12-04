@@ -1,19 +1,8 @@
 import numpy as np
 
+from util import Discrete, Box
 
 "define the environment"
-class Discrete:
-    def __init__(self, n):
-        self.n = n
-    def sample(self):
-        return np.random.randint(0, self.n)
-
-class Box:
-    def __init__(self, low, high):
-        self.shape = len(low)
-        self.low = low
-        self.high = high
-
 class MazeEnv:
     def __init__(self, reward_matrix):
         # set the reward matrix
