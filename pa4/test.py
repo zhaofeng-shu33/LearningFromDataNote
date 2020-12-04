@@ -11,13 +11,13 @@ from policy_learning import CELearning
 class TestMaze(unittest.TestCase):
     def test_3x3_maze(self):
         env = MazeEnvSample3x3()
-        current_state, reward, done = env.step(1) # right
+        current_state, _, _, _ = env.step(1) # right
         self.assertEqual(current_state, [0, 1])
-        current_state, reward, done = env.step(3) # down
+        current_state, _, _, _ = env.step(3) # down
         self.assertEqual(current_state, [1, 1])
-        current_state, reward, done = env.step(3) # down
+        current_state, _, _, _ = env.step(3) # down
         self.assertEqual(current_state, [2, 1])
-        current_state, reward, done = env.step(1) # right
+        current_state, reward, done, _ = env.step(1) # right
         self.assertEqual(current_state, [2, 2])
         self.assertTrue(done)
         self.assertTrue(reward > 0)
@@ -27,7 +27,7 @@ class TestMaze(unittest.TestCase):
     def test_4x4_maze(self):
         env = MazeEnvSpecial4x4()
         env.step(1) # right
-        current_state, reward, done = env.step(3)
+        current_state, reward, done, _ = env.step(3)
         self.assertTrue(reward < 0)
         self.assertTrue(done)
 
@@ -39,7 +39,7 @@ class TestMaze(unittest.TestCase):
         current_state = env.reset()
         while True:
             action = alg.predict(current_state)
-            current_state, reward, done = env.step(action)
+            current_state, reward, done, _ = env.step(action)
             if done:
                 break
             done_cnt += 1
@@ -53,7 +53,7 @@ class TestMaze(unittest.TestCase):
         current_state = env.reset()
         while True:
             action = alg.predict(current_state)
-            current_state, reward, done = env.step(action)
+            current_state, reward, done, _ = env.step(action)
             if done:
                 break
             done_cnt += 1
@@ -63,7 +63,7 @@ class TestPendulum(unittest.TestCase):
     def test_model(self):
         env = InvertedPendulumEnv()
         env.step(1) # right force
-        state, _, _ = env.step(1)
+        state, _, _, _ = env.step(1)
 
         self.assertTrue(state[0] > 0)
         self.assertTrue(state[2] > 0)
@@ -71,13 +71,13 @@ class TestPendulum(unittest.TestCase):
         env.step(0)
         env.step(0)
         env.step(0)
-        state, _, done = env.step(0)
+        state, _, done, _ = env.step(0)
         self.assertTrue(state[2] < 0)
         self.assertTrue(state[3] < 0)
         self.assertFalse(done)
 
     def test_cross_entropy_learning(self):
-        env = gym.make('CartPole-v0')
+        env = InvertedPendulumEnv()
         alg = CELearning(env)
         alg.train()
         done_cnt = 0
@@ -90,6 +90,7 @@ class TestPendulum(unittest.TestCase):
                 break
             done_cnt += 1
         self.assertTrue(done_cnt > 25)
+
 
 if __name__ == '__main__':
     unittest.main()

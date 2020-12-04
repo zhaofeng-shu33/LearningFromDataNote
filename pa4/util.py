@@ -8,6 +8,6 @@ class Discrete:
 
 class Box:
     def __init__(self, low, high):
-        self.shape = len(low)
+        self.shape = (len(low),)
         self.low = low
         self.high = high

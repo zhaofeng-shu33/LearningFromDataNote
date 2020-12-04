@@ -56,7 +56,7 @@ class QTableLearning:
                 action = self.select_action(current_state_tuple)
 
                 # get reward from the environment
-                next_state, reward, done = self.env.step(action)
+                next_state, reward, done, _ = self.env.step(action)
 
                 next_state_tuple = tuple(next_state)
                 # learn from the reward

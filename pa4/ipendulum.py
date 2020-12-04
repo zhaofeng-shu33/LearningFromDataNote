@@ -52,8 +52,8 @@ class InvertedPendulumEnv:
         theta_prime = theta + self.tau * theta_dot
         x_prime_dot = x_dot + self.tau * x_double_dot
         theta_prime_dot = theta_dot + self.tau * theta_double_dot
-        self.state = [x_prime, theta_prime, x_prime_dot,
-                      theta_prime_dot]
+        self.state = np.array([x_prime, theta_prime, x_prime_dot,
+                      theta_prime_dot])
 
         reward = 1
         # check termination condition
@@ -63,7 +63,7 @@ class InvertedPendulumEnv:
         else:
             done = False
 
-        return self.state, reward, done
+        return self.state, reward, done, None
 
     def reset(self):
         """Reset the agent state
@@ -71,6 +71,6 @@ class InvertedPendulumEnv:
         Outputs:
             state: 1 x 4 array, the initial state.
         """
-        self.state = [0, 13 * np.pi / 180, 0, 0]
+        self.state = np.array([0, 13 * np.pi / 180, 0, 0])
 
         return self.state

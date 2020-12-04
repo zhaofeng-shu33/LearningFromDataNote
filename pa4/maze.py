@@ -48,7 +48,7 @@ class MazeEnv:
             done = True
         self.state = next_state
 
-        return next_state, reward, done
+        return next_state, reward, done, None
 
     def reset(self):
         """Reset the agent state
