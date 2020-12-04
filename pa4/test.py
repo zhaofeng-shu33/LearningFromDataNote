@@ -1,9 +1,11 @@
 import unittest
 import numpy as np
+import gym
 
 from maze import MazeEnvSample3x3, MazeEnvSpecial4x4
 
 from qlearning import QTableLearning
+from policy_learning import CELearning
 
 class TestMaze(unittest.TestCase):
     def test_3x3_maze(self):
@@ -55,6 +57,12 @@ class TestMaze(unittest.TestCase):
                 break
             done_cnt += 1
         self.assertTrue(done_cnt < 10)
+
+class TestCartpole(unittest.TestCase):
+    def test_cross_entropy_learning(self):
+        env = gym.make('CartPole-v0')
+        alg = CELearning(env)
+        alg.train()
 
 if __name__ == '__main__':
     unittest.main()
