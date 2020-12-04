@@ -20,6 +20,7 @@ class InvertedPendulumEnv:
         lower_bound = [-1.0 * self.delta_theta, -1.0 * self.delta_theta, -1.0 * np.Inf, -1.0 * np.Inf]
         upper_bound = [self.delta_theta, self.delta_theta, np.Inf, np.Inf]
         self.observation_space = Box(lower_bound, upper_bound)
+        self.reset()
 
     def step(self, action):
         """Given an action, outputs the reward.
@@ -41,11 +42,11 @@ class InvertedPendulumEnv:
         else:
             F = -1.0 * self.F
         # compute acceleration of x and theta
-        _matrix_22 = [[self.m + self.M, self.m * self.L * np.cos(theta)],
-                     [np.cos(theta), self.L]]
-        _vector_2 = [F + self.m * self.L * theta_dot ** 2 * np.sin(theta),
-                    self.g * np.sin(theta)]
-        x_double_dot, theta_double_dot = np.linalg.solve(_matrix_22, _vector_22)
+        _matrix_22 = [[self.m + self.M, -1.0 * self.m * self.L * np.cos(theta)],
+                     [np.cos(theta), -1.0 * self.L]]
+        _vector_2 = [F - self.m * self.L * theta_dot ** 2 * np.sin(theta),
+                    -1.0 * self.g * np.sin(theta)]
+        x_double_dot, theta_double_dot = np.linalg.solve(_matrix_22, _vector_2)
         # set new state
         x_prime = x + self.tau * x_dot
         theta_prime = theta + self.tau * theta_dot
@@ -53,7 +54,7 @@ class InvertedPendulumEnv:
         theta_prime_dot = theta_dot + self.tau * theta_double_dot
         self.state = [x_prime, theta_prime, x_prime_dot,
                       theta_prime_dot]
-        # check reward
+
         reward = 1
         # check termination condition
         if np.abs(theta_prime) > self.delta_theta_prime or \
@@ -62,7 +63,7 @@ class InvertedPendulumEnv:
         else:
             done = False
 
-        return next_state, reward, done
+        return self.state, reward, done
 
     def reset(self):
         """Reset the agent state

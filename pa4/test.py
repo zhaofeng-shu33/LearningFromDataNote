@@ -3,6 +3,7 @@ import numpy as np
 import gym
 
 from maze import MazeEnvSample3x3, MazeEnvSpecial4x4
+from ipendulum import InvertedPendulumEnv
 
 from qlearning import QTableLearning
 from policy_learning import CELearning
@@ -58,7 +59,23 @@ class TestMaze(unittest.TestCase):
             done_cnt += 1
         self.assertTrue(done_cnt < 10)
 
-class TestCartpole(unittest.TestCase):
+class TestPendulum(unittest.TestCase):
+    def test_model(self):
+        env = InvertedPendulumEnv()
+        env.step(1) # right force
+        state, _, _ = env.step(1)
+
+        self.assertTrue(state[0] > 0)
+        self.assertTrue(state[2] > 0)
+        self.assertTrue(state[3] > 0)
+        env.step(0)
+        env.step(0)
+        env.step(0)
+        state, _, done = env.step(0)
+        self.assertTrue(state[2] < 0)
+        self.assertTrue(state[3] < 0)
+        self.assertFalse(done)
+
     def test_cross_entropy_learning(self):
         env = gym.make('CartPole-v0')
         alg = CELearning(env)
