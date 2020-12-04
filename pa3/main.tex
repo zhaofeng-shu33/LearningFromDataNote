@@ -113,7 +113,7 @@ data points $x^{(1)}, \dots, x^{(m)}$ and cluster size $k$
 \begin{algorithmic}[1]
 \State Initialize cluster centroids $\mu_1, \dots, \mu_k \in \mathbb{R}^n$ randomly
 \While{not convergent}
-\For{$i = 1, \dots, n$}
+\For{$i = 1, \dots, m$}
 \State $y_i = \arg\min_j || x^{(i)} - \mu_j||^2$
 \EndFor
 \For{$j = 1, \dots, k$}
@@ -125,7 +125,7 @@ data points $x^{(1)}, \dots, x^{(m)}$ and cluster size $k$
 		\part[2] kmeans can be regarded as a special Gaussian mixture model with known uniform variance. If
 		the dataset does not follow this assumption, the clustering result may behave poorly and contrary to the
 		expectation. In this question, you are required to apply kmeans clustering to an artificial dataset
-		with two eclipse contour and present the clustering result in the form of figure. Besides, you should write down
+		with two ellipse contour and present the clustering result in the form of figure. Besides, you should write down
 		some analysis in \texttt{README.md} to explain why the
 		unexpected clustering result happens. For the experiment code, please
 		see \textbf{kmeans-experiment.py} for detail of artificial data generation and result visualization. 
