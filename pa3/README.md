@@ -19,10 +19,26 @@ test.
 # Grading details
 The grading consists of three part:
 * auto-grade (8.5) by running `python test.py`
-* analysis for kmeans
-* analysis for spectral clustering
+* analysis for kmeans (2)
+    * right figure (1 points)
+    * plausible analysis (1 points)
+* analysis for spectral clustering (2)
+    * right figure and meaningful gamma (1 points)
+    * plausible analysis for why gamma cannot be too small (0.5 points)
+    * plausible analysis for why gamma cannot be too large (0.5 points)
+## Common pitfalls to lose points for analysis problem
+* forget to upload the figure.
+* Mainly use random initialization of kmeans to explain the cause
 
 # Analysis problem
 ## Kmeans
-
+Some students think random initialization is the main problem to achieve unexpected result.
+I think this explanation is not hitting the essence of problem. Even using
+`kmeans++` as initialization it is still hard to get a good result. That is to say that with
+large probability we could not get the expected result. Therefore, the main problem lies with the
+formulation of kmeans itself and not the randomness of the algorithm. You can regard the randomness
+as a minor factor by saying that choosing initial centroid near [1, 0], [5, 0] can produce the
+human-expected result.
 ## Spectral Clustering
+Some students think the gamma between 1100 ~ 2000 can not always produce expected results.
+This is due to random initialization of kmeans, not the problem of spectral clustering algorithm itself. If you use sklearn (normalized) implementation, you won't have the random result.
