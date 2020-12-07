@@ -4,3 +4,6 @@
 [submodule "pa2/template"]
 	path = pa2/template
 	url = https://github.com/TBSILearningFromDataFall2020/PA2
+[submodule "pa3/template"]
+	path = pa3/template
+	url = https://github.com/TBSILearningFromDataFall2020/PA3.git
