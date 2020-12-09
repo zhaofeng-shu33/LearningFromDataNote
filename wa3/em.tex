@@ -1,0 +1,107 @@
+\documentclass[a4paper, 12pt]{exam}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage{advdate}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[mathcal]{eucal}
+\usepackage{dsfont}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{url}
+\begin{document}
+	In Gaussian mixture model, we introduce hidden variable $Z$, which
+    is multinomial random variable taking values in $\{1, 2, \dots, K\}$.
+    Conditioned on $Z_i = j$ we have $X_i \sim N(\mu_i, C_i)$.
+	Our goal is to maximize the log-likelihood averaged over $Z$.
+	That is,
+	$$
+	J(\theta) = \mathbb{E}_{Z|X, \theta}[\log P(X, Z | \theta)]
+	$$
+	The parameter $\theta = (\theta_1, \dots, \theta_K)$ where $\theta_j = (w_j, \mu_j, C_j)$ and $\sum_{j=1}^K w_j =1$.
+	
+	Once we obtained data $x_1, \dots, x_n$, using the independent condition, the object function is
+	\begin{align}
+	J(\theta) &= \sum_{i=1}^n \sum_{j=1}^k P(Z_i=j | X_i = x_i, \theta_j) \log P(X_i = x_i, Z_i = j | \theta_j) \notag\\
+	 &= \sum_{j=1}^k \sum_{i=1}^nP(Z_i=j | X_i = x_i, \theta_j) \log (w_j p(x_i |\mu_j, C_j)) \label{eq:change_form} 
+	\end{align}
+	where
+	$$
+	p(x_i | \mu_j, C_j) = \frac{1}{\sqrt{2\pi|C_j|}} \exp(-\frac{1}{2}(x_i - \mu_j)^TC^{-1}_j(x_i - \mu_j))
+	$$
+	Generally speaking, the coefficient of $\log$ depends on $\theta_j$, which makes the optimization analytical
+	impossible. Therefore, we use a iteration scheme called EM procedure. Suppose we know $\theta_j$ in advance
+	and we solve $\theta^{(t+1)}=\arg\max \mathbb{E}_{Z|X, \theta^{(t)}}[\log P(X, Z | \theta)]$.
+	
+	To simplify the notation in deduction, we replace $\theta_j$ with $\theta'_j$ in \eqref{eq:change_form} and suppose
+	$\theta'_j$ is known.
+	Then the optimization problem is transformed to:
+	\begin{equation}\label{eq:em_obj}
+	\sum_{j=1}^k \sum_{i=1}^n \gamma_{ij} \log (w_j p(x_i |\mu_j, C_j))
+	\end{equation}
+	where 
+	\begin{align}
+	\gamma_{ij} & = P(Z_i=j | X_i = x_i, \theta'_j) \\
+	&=\frac{w'_j p(x_i | \mu'_i, C'_i)}{\sum_{r=1}^K w'_r p(x_i | \mu'_r, C'_r)} \label{eq:estep}
+	\end{align}
+	Maximize \eqref{eq:em_obj} is easy by taking the partial derivative about $w_j, \mu_j, C_j$ respectively.
+	
+	Let $\gamma_{\cdot j} = \sum_{i=1}^n \gamma_{ij}$.
+	To get $w_j$ we consider
+	$$
+	\sum_{j=1}^K \gamma_{\cdot j} \log w_j - \lambda(\sum_{j=1}^{K} w_j-1)
+	$$
+	by taking derivative we get
+	\begin{equation}\label{eq:mstep_w}
+	w_j = \frac{\gamma_{\cdot j} }{\sum_{r=1}^K \gamma_{\cdot r} }
+	\end{equation}
+	
+	For $\mu_j, C_j$ we consider:
+	$$
+	-\frac{1}{2}\sum_{i=1}^n \gamma_{ij} (\log |C_j| + (x_i - \mu_j)^TC^{-1}_j(x_i - \mu_j) )
+	$$
+	Here we mention two formulas for matrix derivative (See (57), (61) of \cite{matrix_cookbook} ):
+	\begin{align*}
+	\frac{\partial \log |A|}{\partial A} &= A^{-T} \\
+	\frac{\partial a^T X^{-1}b}{\partial X} & = -X^{-T} ab^T X^{-T}
+	\end{align*}	
+	Taking the derivative about $\mu_j, C_j$ respectively we have:
+	\begin{align*}
+	\sum_{i=1}^n \gamma_{ij} C_j^{-1} (x_i - \mu_j) &= 0\\
+	\sum_{i=1}^n \gamma_{ij} [C_j^{-T} + C_j^{-T} (x_i - \mu_j) (x_i - \mu_j)^T C_j^{-T}] &= 0
+	\end{align*}
+	Therefore, we have
+	\begin{align}
+	\mu_j &= \frac{\sum_{i=1}^n \gamma_{ij}x_i}{\gamma_{\cdot j}} \label{eq:mstep_mu}\\
+	C_j & = \frac{\sum_{i=1}^n \gamma_{ij}(x_i - \mu_j) (x_i - \mu_j)^T}{\gamma_{\cdot j}} \label{eq:mstep_C}
+	\end{align}
+	Now from (\ref{eq:estep}, \ref{eq:mstep_w}, \ref{eq:mstep_mu}, \ref{eq:mstep_C}) we can write the iteration step of EM for
+	Gaussian mixture model:
+\begin{algorithm}
+	\begin{algorithmic}[1]
+	\REQUIRE data $x_1, \dots, x_n$, number of clusters $K$.
+	\ENSURE the probability matrix for $x_i$ belongs to the $j-$th cluster $\gamma_{ij}$ and GMM parameter $w_j, \mu_j, C_j$ for
+	$j=1,\dots, K$
+	\STATE Initialize $w^{(0)}_j, \mu^{(0)}_j, C^{(0)}_j$ randomly, object function $Q^{0} = -\infty$.
+	\FOR{$t=0,1, \dots$}
+	\FOR{$j=1, \dots, K$}
+	\STATE (EStep) $\gamma_{ij}^{(t)} \leftarrow \frac{w^{(t)}_j p(x_i | \mu^{(t)}_i, C^{(t)}_i)}{\sum_{r=1}^K w^{(t)}_r p(x_i | \mu^{(t)}_r, C^{(t)}_r)}$
+	\STATE $\gamma^{(t)}_{\cdot j} \leftarrow \sum_{i=1}^n \gamma^{(t)}_{ij}$
+	\STATE (MStep) $w^{(t+1)} \leftarrow \frac{\gamma^{(t)}_{\cdot j} }{\sum_{r=1}^K \gamma^{(t)}_{\cdot r} }$
+	\STATE $\mu^{(t+1)}_j = \frac{\sum_{i=1}^n \gamma^{(t)}_{ij}x_i}{\gamma^{(t)}_{\cdot j}}$
+	\STATE $ C^{(t+1)}_j =\frac{\sum_{i=1}^n \gamma^{(t)}_{ij}(x_i - \mu^{(t+1)}_j) (x_i - \mu^{(t+1)}_j)^T}{\gamma^{(t)}_{\cdot j}}$
+	\ENDFOR
+	\STATE $Q^{(t+1)} \leftarrow \sum_{j=1}^k \sum_{i=1}^n \gamma^{(t)}_{ij} \log (w^{(t)}_j p(x_i |\mu^{(t)}_j, C^{(t)}_j))$
+	\IF{$|Q^{(t+1)} - Q^{(t)}| < \epsilon$}
+	\STATE \textbf{break}
+	\ENDIF
+	\ENDFOR
+\end{algorithmic}
+\end{algorithm}	
+	\begin{thebibliography}{9}
+	\bibitem{matrix_cookbook} The Matrix Cookbook
+\end{thebibliography}
+\end{document}
