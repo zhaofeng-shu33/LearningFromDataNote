@@ -32,6 +32,7 @@
 \usepackage{listings}
 \usepackage{amsmath} 
 \usepackage{hyperref}
+\usepackage{subcaption}
 \usepackage{array}
 \usepackage{wasysym}
 \usepackage{xmpmulti}
@@ -179,7 +180,7 @@ Choose the initial centroid of KMeans near \texttt{[1, 0], [5, 0]}:
 expected result is the local optima (\textbf{not} the global optima)
 \end{frame}
 \begin{frame}{KMeans Assumption}
-Normalizing the data before using KMeans (RichardWilde1): \texttt{sklearn.preprocess.scale}
+Normalizing the data before using KMeans: \texttt{sklearn.preprocess.scale}
 
 \begin{figure}[!ht]
 	\centering
@@ -191,8 +192,85 @@ Normalizing the data before using KMeans (RichardWilde1): \texttt{sklearn.prepro
 \end{itemize}
 \end{frame} 
 \begin{frame}{Gaussian Kernel in Spectral Clustering}
-
+\begin{block}{Problem}
+	The similarity matrix $W$ is given by $W_{ij} = \exp(-\gamma ||x_i - x_j||^2)$.
+	Explore how $\gamma$ influence the spectral clustering result of the following data:
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=6cm]{spectral.png}
+		\caption{three-circle dataset}
+	\end{figure}
+\end{block}
 
 \end{frame}
+\begin{frame}{Gaussian Kernel in Spectral Clustering}
+When $\gamma$ increases from 1000 to 1400, draw the embedded features (the second and third smallest eigenvector)
+in Euclid plane:
 
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{sc-01.png}
+\end{figure}
+
+The transition occurs when $gamma$ changes from 1081 to 1089.
+
+\end{frame}
+\begin{frame}{Gaussian Kernel in Spectral Clustering}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+			\begin{figure}[!ht]
+			\centering
+			\includegraphics[width=\textwidth]{small.png}
+		\end{figure}
+The inertial drops to zero in a neighborhood of $\gamma=1086$.	
+	\end{column}
+	\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{spectral-experiment-1100.png}
+	\caption{spectral clustering result when $\gamma=1100$}
+\end{figure}
+	\end{column}
+\end{columns}
+
+\end{frame}
+\begin{frame}{Gaussian Kernel in Spectral Clustering}
+%\begin{itemize}
+%	\item Numerical issues: \texttt{sklearn.manifold.spectral\_embedding} does not converge using \textbf{arpack} solver for $\gamma>3000$.
+%	\item Using \texttt{np.lialg.eig} works
+%\end{itemize}
+\begin{figure}
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{big-sc-00.png}
+	\end{subfigure}~
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{big-sc-30.png}
+		\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{big-sc-31.png}
+\end{subfigure}~
+\begin{subfigure}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{big-sc-43.png}		
+\end{subfigure}	
+\end{figure}
+\end{frame}
+
+\begin{frame}{Gaussian Kernel in Spectral Clustering}
+The number of clusters is more than 3 when $gamma$ is larger than 10418.
+Using $k=3$ will produce incorrect result:
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=6cm]{10448.png}
+	\caption{spectral clustering result when $\gamma=10448$}
+\end{figure}
+\end{frame}
+\begin{frame}{Gaussian Kernel in Spectral Clustering}
+\begin{block}{Conclusion}
+\begin{itemize}
+	\item $\gamma < 1086$: similarity between different clusters are larger than that of the same cluster
+	\item $\gamma > 10418$: similarity within the same cluster is smaller than that between different clusters
+	\item $\gamma \in (1086, 10418)$: Using proper eigen-decomposition and kmeans initialization strategy can achieve accuracy 100\%
+\end{itemize}
+\end{block}
+\end{frame}
 \end{document}
